@@ -304,11 +304,6 @@ td.tool{font-weight:500;white-space:nowrap}
   40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
 
 /* ===== PROPUESTA SLIDES ===== */
-.startbtn2{margin-top:14px;align-self:flex-start;background:transparent;color:#fff;
-  border:1px solid rgba(255,255,255,.42);font-family:var(--display);font-weight:600;
-  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;padding:11px 26px;
-  cursor:pointer;transition:.25s}
-.startbtn2:hover{border-color:var(--orange);background:var(--orange);color:#fff}
 
 .ptable{width:100%;border-collapse:collapse;font-family:var(--body);margin-top:6px}
 .ptable th{background:var(--black);color:#fff;font-size:10px;font-weight:600;
@@ -453,7 +448,6 @@ td.tool{font-weight:500;white-space:nowrap}
     <div class="anim" style="font-family:var(--display);font-weight:700;font-size:clamp(16px,1.7vw,23px);color:#fff;text-transform:uppercase;letter-spacing:-.01em;line-height:1.25;">Credenciales</div>
     <div class="anim" style="font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-top:10px;font-weight:400;">Preparado para Unilever Puerto Rico, Septiembre 2026</div>
     <button class="startbtn anim" id="startbtn">Iniciar</button>
-    <button class="startbtn2 anim" id="startbtn2">Ir a Propuesta de Atención</button>
   </div>
 </section>
 
@@ -1765,7 +1759,6 @@ function go(i){if(i<0)i=slides.length-1;if(i>=slides.length)i=0;slides[cur].clas
 document.getElementById('next').onclick=()=>go(cur+1);
 document.getElementById('prev').onclick=()=>go(cur-1);
 document.getElementById('startbtn').onclick=()=>go(1);
-document.getElementById('startbtn2').onclick=()=>go(18);
 
 /* ===== GATE ===== */
 (function(){
