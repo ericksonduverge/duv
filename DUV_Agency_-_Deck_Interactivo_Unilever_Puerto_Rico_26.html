@@ -256,6 +256,13 @@ td.tool{font-weight:500;white-space:nowrap}
 @media(max-width:900px){.fivelayer{grid-template-columns:1fr;gap:18px}}
 
 /* ===== CÉLULA · CONSTELACIÓN ===== */
+.cellgrid{display:grid;grid-template-columns:1fr minmax(230px,290px);gap:34px;align-items:center;width:100%}
+.cellnote{align-self:center}
+.cellnote .cnh{font-size:10.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:10px;line-height:1.4}
+.cellnote p{font-size:clamp(11.5px,.95vw,13.5px);line-height:1.6;font-weight:300;color:var(--gray)}
+.cellnote p b{color:var(--black);font-weight:600}
+@media(max-width:900px){.cellgrid{grid-template-columns:1fr;gap:20px}}
 .cellwrap{display:flex;flex-direction:column;align-items:center;width:100%}
 .cellsvg{width:100%;max-width:min(78vw,820px);height:auto;max-height:58vh;display:block;overflow:visible}
 .cnode-t,.ccore-t{font-family:var(--body);font-weight:500;fill:#3A3A3A;text-anchor:middle;
@@ -352,6 +359,23 @@ td.tool{font-weight:500;white-space:nowrap}
   color:var(--orange);letter-spacing:-.02em;text-align:right;line-height:1.05}
 .feerow .fs{font-size:10.5px;color:var(--gray);text-align:right;margin-top:3px;font-weight:300}
 .feenote{font-size:10.5px;color:var(--gray);margin-top:20px;font-style:italic;line-height:1.6}
+.addons{display:grid;grid-template-columns:1fr 1fr;gap:38px;margin-top:26px}
+.addon{border-top:2px solid var(--black);padding-top:13px}
+.addonh{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-bottom:8px}
+.addonh .an{font-size:clamp(13px,1.15vw,17px);font-weight:600}
+.addonh .av{font-family:var(--display);font-weight:800;font-size:clamp(16px,1.6vw,22px);
+  color:var(--orange);letter-spacing:-.02em;white-space:nowrap}
+.addon .ax{font-size:11.5px;line-height:1.6;color:var(--gray);font-weight:300}
+.addon .ax b{color:var(--black);font-weight:600}
+.addon .aside{font-size:10px;color:var(--gray);font-style:italic;margin-top:7px;line-height:1.5}
+.arow{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:baseline;
+  padding:8px 0;border-bottom:1px solid var(--line)}
+.arow:last-child{border-bottom:none}
+.arow .at{font-size:12.5px;font-weight:500;line-height:1.3}
+.arow .at span{display:block;font-size:10px;color:var(--gray);font-weight:300;margin-top:3px}
+.arow .av{font-family:var(--display);font-weight:800;font-size:15px;color:var(--orange);
+  letter-spacing:-.02em;white-space:nowrap}
+@media(max-width:900px){.addons{grid-template-columns:1fr;gap:22px}}
 
 @media(max-width:900px){
   .rolegrid{grid-template-columns:repeat(2,1fr)}
@@ -1372,10 +1396,10 @@ td.tool{font-weight:500;white-space:nowrap}
           <tbody>
             <tr class="hl"><td>Vaseline Filipinas</td><td style="text-align:right">74</td><td>25,000</td></tr>
             <tr><td>Vaseline España</td><td style="text-align:right">151</td><td>6,839</td></tr>
-            <tr><td>Vaseline Puerto Rico</td><td style="text-align:right">Cuenta nueva</td><td>Por definir</td></tr>
+            <tr><td>Vaseline Puerto Rico</td><td style="text-align:right">Cuenta nueva</td><td>450</td></tr>
           </tbody>
         </table>
-        <div class="psrc">Fuente: Instagram, datos públicos, septiembre 2026. La cuenta local de Puerto Rico arranca desde cero, con el benchmark de Filipinas como referencia de lo alcanzable.</div>
+        <div class="psrc">Fuente: Instagram, datos públicos, septiembre 2026. La cuenta local de Puerto Rico está en sus primeros pasos con 450 seguidores, y el benchmark de Filipinas marca la referencia de lo alcanzable.</div>
       </div>
       <div>
         <p class="lead">Filipinas llegó a <strong>25,000 seguidores con apenas 74 publicaciones</strong>. España lleva <strong>151 publicaciones y está en 6,839</strong>: más del doble de contenido, menos de un tercio de comunidad.</p>
@@ -1484,12 +1508,18 @@ td.tool{font-weight:500;white-space:nowrap}
   <div class="content">
     <div class="eyebrow anim">La célula</div>
     <h1 class="big anim" style="max-width:20ch;font-size:clamp(22px,3vw,38px);margin-bottom:6px;">Un equipo asignado a su cuenta.</h1>
-    <div class="cellwrap anim">
+    <div class="cellgrid anim">
+      <div class="cellwrap">
       <svg class="cellsvg" viewBox="195 45 800 590" xmlns="http://www.w3.org/2000/svg"><g class="cnode" style="--d:0.18s" data-desc="Traduce el concepto en dirección visual y estándar estético." data-role="Director de Arte"><circle class="chit" cx="377" cy="155" r="92"/><circle class="cring" cx="377" cy="155" r="92" stroke="#C9C9C9"/><text class="cnode-t" x="377" y="155" font-size="19"><tspan x="377" y="150">Director</tspan><tspan x="377" y="175">de Arte</tspan></text></g><g class="cnode" style="--d:0.25s" data-desc="Edita, desarrolla motion graphics y animaciones." data-role="Animador"><circle class="chit" cx="532" cy="205" r="92"/><circle class="cring" cx="532" cy="205" r="92" stroke="var(--orange)"/><text class="cnode-t" x="532" y="205" font-size="19"><tspan x="532" y="212">Animador</tspan></text></g><g class="cnode" style="--d:0.32s" data-desc="Ejecuta piezas gráficas, carruseles y sistemas visuales." data-role="Diseñadora"><circle class="chit" cx="387" cy="330" r="92"/><circle class="cring" cx="387" cy="330" r="92" stroke="var(--orange)"/><text class="cnode-t" x="387" y="330" font-size="19"><tspan x="387" y="337">Diseñadora</tspan></text></g><g class="cnode" style="--d:0.39s" data-desc="Define la línea creativa y la coherencia de marca en cada pieza." data-role="Director Creativo"><circle class="chit" cx="717" cy="294" r="92"/><circle class="cring" cx="717" cy="294" r="92" stroke="var(--orange)"/><text class="cnode-t" x="717" y="294" font-size="19"><tspan x="717" y="289">Director</tspan><tspan x="717" y="314">Creativo</tspan></text></g><g class="cnode" style="--d:0.46s" data-desc="Genera los conceptos e ideas de campaña y contenido." data-role="Creativa"><circle class="chit" cx="879" cy="294" r="92"/><circle class="cring" cx="879" cy="294" r="92" stroke="#C9C9C9"/><text class="cnode-t" x="879" y="294" font-size="19"><tspan x="879" y="301">Creativa</tspan></text></g><g class="cnode" style="--d:0.53s" data-desc="Planifica y optimiza la pauta digital." data-role="Paid Media"><circle class="chit" cx="303" cy="516" r="90"/><circle class="cring" cx="303" cy="516" r="90" stroke="#C9C9C9"/><text class="cnode-t" x="303" y="516" font-size="19"><tspan x="303" y="511">Paid</tspan><tspan x="303" y="536">Media</tspan></text></g><g class="cnode" style="--d:0.60s" data-desc="Administra la operación de medios y el desempeño de campañas." data-role="Media Manager"><circle class="chit" cx="468" cy="518" r="92"/><circle class="cring" cx="468" cy="518" r="92" stroke="var(--orange)"/><text class="cnode-t" x="468" y="518" font-size="19"><tspan x="468" y="513">Media</tspan><tspan x="468" y="538">Manager</tspan></text></g><g class="cnode" style="--d:0.67s" data-desc="Produce contenido nativo de plataforma, con la voz de la marca." data-role="Content Creator"><circle class="chit" cx="680" cy="511" r="92"/><circle class="cring" cx="680" cy="511" r="92" stroke="var(--orange)"/><text class="cnode-t" x="680" y="511" font-size="19"><tspan x="680" y="506">Content</tspan><tspan x="680" y="531">Creator</tspan></text></g><g class="cnode" style="--d:0.74s" data-desc="Gestiona la conversación, la comunidad y la atención diaria." data-role="Community Manager"><circle class="chit" cx="845" cy="526" r="92"/><circle class="cring" cx="845" cy="526" r="92" stroke="#C9C9C9"/><text class="cnode-t" x="845" y="526" font-size="19"><tspan x="845" y="521">Community</tspan><tspan x="845" y="546">Manager</tspan></text></g><g class="cnode ccore" style="--d:0.05s" data-desc="Núcleo de la célula y contraparte directa de Unilever Puerto Rico. Coordina, prioriza y garantiza el cumplimiento." data-role="Ejecutiva de Cuentas"><circle class="chit" cx="562" cy="378" r="105"/><circle class="cring core" cx="562" cy="378" r="105"/><text class="ccore-t" x="562" y="378" font-size="20"><tspan x="562" y="373">Ejecutiva</tspan><tspan x="562" y="398">de Cuentas</tspan></text></g></svg>
       <div class="celldesc" id="celldesc">
         <span class="cdr">Ejecutiva de Cuentas</span>
         <span class="cdd">Núcleo de la célula y contraparte directa de Unilever Puerto Rico. Coordina, prioriza y garantiza el cumplimiento.</span>
+        </div>
       </div>
+      <aside class="card cellnote">
+        <div class="cnh">Si se manejan las 3 cuentas juntas</div>
+        <p>La célula suma <b>1 diseñador</b> y <b>1 creador de contenido</b> en exclusiva, dedicados únicamente a Vaseline, Dove y Degree.</p>
+      </aside>
     </div>
   </div>
 </section>
@@ -1641,7 +1671,7 @@ td.tool{font-weight:500;white-space:nowrap}
   <div class="content">
     <div class="eyebrow anim">Gestión mensual</div>
     <h1 class="big anim" style="max-width:18ch;font-size:clamp(22px,3.1vw,40px);margin-bottom:14px;">Alcance del Servicio.</h1>
-    <p class="lead anim" style="margin-bottom:6px;max-width:88ch;">Producción mensual de <strong>30 publicaciones en Instagram con publicación espejo en Facebook</strong>, con contenido variado entre reels, carruseles y estáticos, más <strong>15 TikToks</strong>.</p>
+    <p class="lead anim" style="margin-bottom:6px;max-width:88ch;">Producción mensual de <strong>30 publicaciones en Instagram con publicación espejo en Facebook</strong>, con contenido variado entre reels, carruseles y estáticos, más <strong>15 TikToks</strong> y <strong>15 Stories</strong>.</p>
     <p class="lead anim muted" style="margin-bottom:24px;max-width:88ch;">El mix exacto se define cada ciclo según los objetivos del mes y el calendario comercial, manteniendo la flexibilidad de mover el peso entre formatos sin alterar el volumen total ni el fee.</p>
     <div class="attgrid anim">
       <div class="attblk">
@@ -1700,14 +1730,38 @@ td.tool{font-weight:500;white-space:nowrap}
     <h1 class="big anim" style="max-width:14ch;font-size:clamp(22px,3.1vw,40px);margin-bottom:20px;">Fee mensual.</h1>
     <div class="anim">
       <div class="feerow">
-        <div><div class="fc">Fee mensual Social Media · por marca</div><div class="fd">30 publicaciones IG con espejo en Facebook · 15 TikToks · Guía de contenido · Publicación de influencers y UGC · Community Management · Reportería de desempeño</div></div>
+        <div><div class="fc">Fee mensual Social Media · por marca</div><div class="fd">30 publicaciones IG con espejo en Facebook · 15 TikToks · 15 Stories · Guía de contenido · Publicación de influencers y UGC · Community Management · Reportería de desempeño</div></div>
         <div><div class="fm">USD$2,321</div><div class="fs">/ mes + impuestos</div></div>
       </div>
       <div class="feerow" style="background:rgba(255,87,13,.07);padding-left:16px;padding-right:16px;">
         <div><div class="fc">Paquete 3 marcas · Vaseline, Dove y Degree</div><div class="fd">El mismo alcance para cada una de las 3 marcas, con un 15% de descuento aplicado sobre el fee individual</div></div>
         <div><div class="fm">USD$5,918.55</div><div class="fs">/ mes + impuestos · equivale a USD$1,972.85 por marca</div></div>
       </div>
-      <div class="feenote">Cifras expresadas en dólares estadounidenses (USD), antes de impuestos. El paquete de 3 marcas aplica un 15% de descuento sobre el fee individual: USD$2,321 × 3 = USD$6,963, menos 15% da USD$5,918.55. Propuesta válida por 30 días.</div>
+      <div class="addons">
+        <div class="addon">
+          <div class="addonh"><div class="an">Shooting</div><div class="av">USD$1,950</div></div>
+          <div class="ax">Jornada de <b>8 horas</b> de fotografía y video para creación de contenido.<br>
+          <b>Incluye:</b> locación, iluminación, sonido y equipo de producción, más la gestión de talento de principio a fin: casting, coordinación y dirección en set.<br>
+          <b>Entregable:</b> 30 fotografías y 12 videos por sesión.</div>
+          <div class="aside">Los honorarios del talento se cotizan aparte, según el perfil que se seleccione.</div>
+        </div>
+        <div class="addon">
+          <div class="addonh"><div class="an">Coberturas</div><div class="av" style="font-size:10px;font-family:var(--body);font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gray)">Por evento</div></div>
+          <div class="arow">
+            <div class="at">Video recap de evento<span>3 horas · locación Santo Domingo</span></div>
+            <div class="av">USD$1,100</div>
+          </div>
+          <div class="arow">
+            <div class="at">Fotografía profesional de evento<span>3 horas · locación Santo Domingo</span></div>
+            <div class="av">USD$375</div>
+          </div>
+          <div class="arow">
+            <div class="at">Cobertura social media orgánica<span>Fee + historias · 3 horas · locación Santo Domingo</span></div>
+            <div class="av">USD$350</div>
+          </div>
+        </div>
+      </div>
+      <div class="feenote">Cifras expresadas en dólares estadounidenses (USD), antes de impuestos. El paquete de 3 marcas aplica un 15% de descuento sobre el fee individual: USD$2,321 × 3 = USD$6,963, menos 15% da USD$5,918.55. Shooting y coberturas se contratan por separado del fee mensual. Propuesta válida por 30 días.</div>
     </div>
   </div>
 </section>
