@@ -11,7 +11,11 @@
 <meta property="og:description" content="De la prevención al manejo quirúrgico especializado. Sábado 24 de octubre de 2026 · Santo Domingo, República Dominicana.">
 <meta property="og:locale" content="es_DO">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%239c1b1f'/%3E%3Cpath d='M6 36h15l5-15 8 26 6-11h18' fill='none' stroke='%23fdd104' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-<script>document.documentElement.classList.add('js')</script>
+<script>
+(function(){var d=document.documentElement;d.classList.add('js');
+try{var force=/[?&]intro\b/.test(location.search),seen=sessionStorage.getItem('fs-intro-visto'),rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(force||(!seen&&!rm))d.classList.add('intro-on');}catch(e){d.classList.add('intro-on');}})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
@@ -426,6 +430,80 @@ fieldset.field{border:0;padding:0;margin:0}
   .hero-ecg path{stroke-dashoffset:0}
   .hero-art img{transform:none}
 }
+/* ---------- Intro ---------- */
+.intro{display:none}
+.intro-on,.intro-on body{overflow:hidden}
+.intro-on .intro{display:block}
+.intro-on .hero .rise,.intro-on .hero-ecg path,.intro-on .badge i{animation-play-state:paused}
+.intro{position:fixed;inset:0;z-index:1000;background:#1a0303;color:#fff;overflow:hidden;transition:transform 1.05s cubic-bezier(.76,0,.24,1),border-radius 1.05s cubic-bezier(.76,0,.24,1);will-change:transform}
+.intro-bg{position:absolute;inset:0;background:var(--grad-brand);opacity:0;transition:opacity 1.2s var(--ease)}
+.intro-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 50% 50%,rgba(36,5,4,0),rgba(36,5,4,.55))}
+.intro.is-lit .intro-bg{opacity:1}
+.intro-grain{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1.5px);background-size:22px 22px;opacity:.6;pointer-events:none}
+
+.intro-cells{position:absolute;inset:0;pointer-events:none;transition:transform 1.1s cubic-bezier(.7,0,.3,1),opacity .9s}
+.ic{position:absolute;background-repeat:no-repeat;background-size:contain;background-position:center;opacity:0;transform:translate3d(var(--mx,0px),var(--my,0px),0) scale(.35);filter:blur(var(--blur,0px));transition:opacity 1.2s var(--ease),transform 1.6s var(--ease)}
+.ic>i{position:absolute;inset:0;background:inherit;animation:bob 9s ease-in-out infinite;animation-delay:var(--dl,0s)}
+.ic{background-image:none}
+.ic.a>i{background-image:var(--cellA)}.ic.b>i{background-image:var(--cellB)}.ic.d>i{background-image:var(--cellD)}
+.intro.is-lit .ic{opacity:var(--op,1);transform:translate3d(var(--mx,0px),var(--my,0px),0) scale(1)}
+
+.intro-ecg{position:absolute;left:0;right:0;top:50%;width:100%;height:160px;transform:translateY(-50%);overflow:visible;transition:opacity .8s var(--ease)}
+.intro-ecg path{fill:none;stroke:var(--red-400);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;filter:drop-shadow(0 0 8px rgba(237,33,36,.8))}
+.intro.is-loading .intro-ecg path{transition:stroke-dashoffset 2.2s cubic-bezier(.45,0,.2,1);stroke-dashoffset:0}
+.intro.is-lit .intro-ecg{opacity:0}
+
+.intro-load{position:absolute;left:var(--gutter);right:var(--gutter);bottom:clamp(28px,6vh,56px);display:flex;align-items:flex-end;justify-content:space-between;gap:20px;transition:opacity .6s,transform .8s var(--ease)}
+.intro-pct{font-family:var(--display);font-weight:800;font-size:clamp(64px,11vw,160px);line-height:.8;letter-spacing:-.04em;color:var(--yellow);font-variant-numeric:tabular-nums}
+.intro-pct small{font-size:.35em;letter-spacing:0;margin-left:.08em;vertical-align:top;color:#fff;opacity:.8}
+.intro-load-label{text-align:right;font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;opacity:.75;line-height:1.7}
+.intro.is-lit .intro-load{opacity:0;transform:translateY(30px)}
+
+.intro-stats{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.istat{grid-area:1/1;text-align:center;padding:0 var(--gutter)}
+.istat .mask{overflow:hidden;display:block;padding-bottom:.04em}
+.istat b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(130px,26vw,380px);line-height:.86;letter-spacing:-.06em;color:var(--yellow);transform:translateY(105%);transition:transform .9s cubic-bezier(.7,0,.2,1);font-variant-numeric:tabular-nums}
+.istat p{margin-top:clamp(10px,2vh,22px);font-family:var(--display);font-weight:500;font-size:clamp(17px,2.1vw,28px);line-height:1.3;letter-spacing:.02em;max-width:26ch;margin-inline:auto;opacity:0;transform:translateY(16px);transition:opacity .6s,transform .8s var(--ease)}
+.istat p small{display:block;margin-bottom:8px;font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--yellow)}
+.istat.on b{transform:none}
+.istat.on p{opacity:1;transform:none;transition-delay:.25s}
+.istat.off b{transform:translateY(-105%);transition-duration:.7s}
+.istat.off p{opacity:0;transform:translateY(-12px);transition-delay:0s}
+
+.intro-final{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(18px,3.4vh,30px);text-align:center;padding:90px var(--gutter);pointer-events:none;transition:transform 1.1s cubic-bezier(.7,0,.3,1),opacity .8s}
+.intro-final .edition{font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--yellow);opacity:0;transform:translateY(12px);transition:opacity .6s,transform .8s var(--ease)}
+.intro-logo{width:min(64vw,440px);clip-path:inset(0 0 100% 0);transform:translateY(24px) scale(.96);transition:clip-path 1.2s cubic-bezier(.7,0,.2,1),transform 1.4s var(--ease)}
+.intro-logo svg{width:100%;height:auto}
+.intro-final .tag{font-family:var(--display);font-weight:300;font-size:clamp(19px,2vw,26px);max-width:28ch;opacity:0;transform:translateY(14px);transition:opacity .7s,transform .9s var(--ease)}
+.intro-final .tag strong{font-weight:600}
+.intro-enter{pointer-events:auto;position:relative;opacity:0;transform:translateY(14px);transition:opacity .6s,transform .8s var(--ease),box-shadow .25s,background .25s}
+.intro-enter::after{content:"";position:absolute;inset:-2px;border-radius:inherit;border:2px solid var(--yellow);animation:ring 2s ease-out infinite}
+@keyframes ring{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.35,1.6);opacity:0}}
+.intro-hint{font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:0;transition:opacity .8s .9s}
+.intro.is-final .intro-final .edition,.intro.is-final .tag,.intro.is-final .intro-enter{opacity:1;transform:none}
+.intro.is-final .intro-final .edition{transition-delay:.1s}
+.intro.is-final .intro-logo{clip-path:inset(0 0 -2% 0);transform:none}
+.intro.is-final .tag{transition-delay:.55s}
+.intro.is-final .intro-enter{transition-delay:.8s}
+.intro.is-final .intro-hint{opacity:.7}
+
+.intro-skip{position:absolute;top:clamp(18px,3vh,28px);right:var(--gutter);z-index:3;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:999px;padding:10px 18px;font-family:var(--display);font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s,opacity .4s}
+.intro-skip:hover{background:#fff;color:var(--red-800)}
+.intro.is-final .intro-skip{opacity:0;pointer-events:none}
+.intro-brand{position:absolute;top:clamp(18px,3vh,28px);left:var(--gutter);height:40px;opacity:0;transition:opacity .8s .4s}
+.intro-brand svg{height:100%;width:auto}
+.intro.is-lit .intro-brand{opacity:1}
+.intro.is-final .intro-brand{opacity:0;transition-delay:0s}
+.intro-bar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:rgba(255,255,255,.1)}
+.intro-bar i{display:block;height:100%;width:0;background:var(--yellow);transition:width .6s var(--ease)}
+
+.intro.is-leaving .intro-final,.intro.is-leaving .intro-cells{transform:scale(1.25);opacity:0}
+.intro.is-leaving .intro-stats,.intro.is-leaving .intro-bar{opacity:0}
+.intro.is-gone{transform:translateY(-100%);border-radius:0 0 50% 50%/0 0 14vh 14vh}
+@media (max-width:720px){
+  .intro-load-label{font-size:11px;letter-spacing:.2em}
+  .intro-brand{height:34px}
+}
 </style>
 </head>
 <body>
@@ -510,6 +588,41 @@ fieldset.field{border:0;padding:0;margin:0}
     <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </defs>
 </svg>
+
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Introducción a Fluter Summit 2026">
+  <div class="intro-bg" aria-hidden="true"></div>
+  <div class="intro-grain" aria-hidden="true"></div>
+  <div class="intro-cells" aria-hidden="true">
+    <span class="ic a" data-depth="40" style="width:clamp(140px,19vw,300px);aspect-ratio:1;left:-4%;top:8%;--dl:-1s"><i></i></span>
+    <span class="ic d" data-depth="24" style="width:clamp(70px,8vw,130px);aspect-ratio:.78;left:18%;bottom:10%;--dl:-4s;--blur:1.5px;--op:.85"><i></i></span>
+    <span class="ic b" data-depth="55" style="width:clamp(170px,23vw,360px);aspect-ratio:1.08;right:-6%;bottom:-6%;--dl:-2s"><i></i></span>
+    <span class="ic a" data-depth="14" style="width:clamp(50px,5vw,80px);aspect-ratio:1;right:22%;top:12%;--dl:-6s;--blur:2.5px;--op:.7"><i></i></span>
+    <span class="ic b" data-depth="18" style="width:clamp(60px,7vw,110px);aspect-ratio:1.08;left:30%;top:4%;--dl:-3s;--blur:3px;--op:.6"><i></i></span>
+    <span class="ic d" data-depth="34" style="width:clamp(90px,10vw,160px);aspect-ratio:.78;right:8%;top:30%;--dl:-5s"><i></i></span>
+    <span class="ic a" data-depth="10" style="width:clamp(40px,4vw,64px);aspect-ratio:1;left:8%;top:58%;--dl:-7s;--blur:3px;--op:.55"><i></i></span>
+  </div>
+  <svg class="intro-ecg" viewBox="0 0 1000 160" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M0 80H380l18-56 26 118 18-62H470l10-20 10 20H1000"/></svg>
+  <div class="intro-load" aria-hidden="true">
+    <span class="intro-pct"><span id="intro-pct">0</span><small>%</small></span>
+    <span class="intro-load-label">Fluter Summit 2026<br>Salud Vascular y Terapia Integral</span>
+  </div>
+  <div class="intro-brand" aria-hidden="true"><svg viewBox="0 0 142.1 116.400028"><use href="#logo-summit"/></svg></div>
+  <div class="intro-stats" aria-live="polite">
+    <div class="istat"><span class="mask"><b data-to="24">24</b></span><p><small>Sábado · 08:00 a.&nbsp;m.</small>de octubre de 2026, en Santo Domingo</p></div>
+    <div class="istat"><span class="mask"><b data-to="5">5</b></span><p><small>Expositores</small>especialistas nacionales e internacionales</p></div>
+    <div class="istat"><span class="mask"><b data-to="2">2</b></span><p><small>Países</small>República Dominicana y Estados Unidos</p></div>
+    <div class="istat"><span class="mask"><b data-to="1">1</b></span><p><small>Invitado institucional</small>Mass General Brigham</p></div>
+  </div>
+  <div class="intro-final">
+    <span class="edition">Primera edición</span>
+    <div class="intro-logo"><svg viewBox="0 0 142.1 116.400028" role="img" aria-label="Fluter Summit 2026"><use href="#logo-summit"/></svg></div>
+    <p class="tag">Abriendo camino hacia una <strong>medicina más global</strong></p>
+    <button class="btn intro-enter" type="button" id="intro-enter">Entrar <svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    <span class="intro-hint">o desplácese para continuar</span>
+  </div>
+  <button class="intro-skip" type="button" id="intro-skip">Saltar intro</button>
+  <div class="intro-bar" aria-hidden="true"><i id="intro-bar"></i></div>
+</div>
 
 <header class="nav" id="nav">
   <div class="wrap">
@@ -1031,6 +1144,100 @@ fieldset.field{border:0;padding:0;margin:0}
       })
       .catch(function(){ showAlert(data); })
       .then(function(){ btn.removeAttribute('aria-busy'); btn.querySelector('.lbl').textContent = 'Enviar'; });
+  });
+})();
+</script>
+<script>
+/* Intro: carga, cifras y revelación del logo. Se muestra una vez por sesión; ?intro la fuerza. */
+(function(){
+  var root = document.documentElement;
+  var intro = document.getElementById('intro');
+  if (!root.classList.contains('intro-on') || !intro) { if (intro) intro.remove(); return; }
+  var pct = document.getElementById('intro-pct');
+  var bar = document.getElementById('intro-bar');
+  var stats = [].slice.call(intro.querySelectorAll('.istat'));
+  var timers = [], state = 'loading', done = false;
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function ease(t){ return 1 - Math.pow(1 - t, 3); }
+  function count(el, to, ms){
+    var t0 = performance.now();
+    (function step(now){
+      var t = Math.min(1, (now - t0) / ms);
+      el.textContent = Math.round(ease(t) * to);
+      if (t < 1 && !done) requestAnimationFrame(step);
+    })(t0);
+  }
+
+  // 1. Carga: contador 0-100 mientras se dibuja el pulso (espera también a las fuentes)
+  requestAnimationFrame(function(){ intro.classList.add('is-loading'); });
+  var fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+  var minLoad = new Promise(function(r){ later(r, 2300); });
+  count(pct, 99, 2200);
+  Promise.all([fontsReady, minLoad]).then(function(){
+    if (done) return;
+    pct.textContent = '100';
+    later(lit, 250);
+  });
+
+  // 2. Cifras
+  function lit(){
+    state = 'stats';
+    intro.classList.add('is-lit');
+    var i = 0, STEP = 1650;
+    function show(){
+      if (done) return;
+      if (i > 0) { stats[i-1].classList.remove('on'); stats[i-1].classList.add('off'); }
+      if (i === stats.length) { later(final, 450); return; }
+      var s = stats[i], b = s.querySelector('b');
+      s.classList.remove('off'); s.classList.add('on');
+      count(b, +b.getAttribute('data-to'), 900);
+      bar.style.width = ((i + 1) / (stats.length + 1) * 100) + '%';
+      i++; later(show, STEP);
+    }
+    later(show, 500);
+  }
+
+  // 3. Logo + entrar
+  function final(){
+    if (done) return;
+    state = 'final';
+    bar.style.width = '100%';
+    intro.classList.add('is-final');
+    later(function(){ var b = document.getElementById('intro-enter'); if (b) b.focus({preventScroll:true}); }, 900);
+  }
+
+  // Salida
+  function leave(){
+    if (done) return; done = true;
+    timers.forEach(clearTimeout);
+    try { sessionStorage.setItem('fs-intro-visto', '1'); } catch (e) {}
+    intro.classList.add('is-leaving');
+    setTimeout(function(){
+      intro.classList.add('is-gone');
+      root.classList.remove('intro-on');
+      window.scrollTo(0, 0);
+    }, 380);
+    setTimeout(function(){ intro.remove(); }, 1500);
+    window.removeEventListener('wheel', onWheel); window.removeEventListener('keydown', onKey);
+    window.removeEventListener('touchstart', onTouchStart); window.removeEventListener('touchend', onTouchEnd);
+  }
+  document.getElementById('intro-enter').addEventListener('click', leave);
+  document.getElementById('intro-skip').addEventListener('click', leave);
+  function onWheel(e){ if (state === 'final' && e.deltaY > 10) leave(); }
+  function onKey(e){ if (e.key === 'Escape') leave(); else if (state === 'final' && (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ')) { e.preventDefault(); leave(); } }
+  var ty = null;
+  function onTouchStart(e){ ty = e.touches[0].clientY; }
+  function onTouchEnd(e){ if (state === 'final' && ty !== null && ty - e.changedTouches[0].clientY > 40) leave(); ty = null; }
+  window.addEventListener('wheel', onWheel, {passive:true});
+  window.addEventListener('keydown', onKey);
+  window.addEventListener('touchstart', onTouchStart, {passive:true});
+  window.addEventListener('touchend', onTouchEnd, {passive:true});
+
+  // Parallax de glóbulos con el puntero
+  var cells = [].slice.call(intro.querySelectorAll('.ic'));
+  intro.addEventListener('pointermove', function(e){
+    var x = e.clientX / window.innerWidth - .5, y = e.clientY / window.innerHeight - .5;
+    cells.forEach(function(c){ var d = +c.getAttribute('data-depth'); c.style.setProperty('--mx', (-x * d).toFixed(1) + 'px'); c.style.setProperty('--my', (-y * d).toFixed(1) + 'px'); });
   });
 })();
 </script>
