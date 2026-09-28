@@ -884,9 +884,8 @@ fieldset.field{border:0;padding:0;margin:0}
       <div class="form-card reveal d1" id="form-card">
         <h3>Formulario de confirmación</h3>
         <p>Complete sus datos para confirmar su participación.</p>
-        <form id="rsvp-form" action="https://formsubmit.co/medical@fluter.com.do" method="POST" novalidate>
+        <form id="rsvp-form" action="https://formspree.io/f/mwlpalrz" method="POST" novalidate>
           <input type="hidden" name="_subject" value="Confirmación de asistencia · Fluter Summit 2026">
-          <input type="hidden" name="_template" value="table">
           <div class="fields">
             <div class="field">
               <label for="f-nombre">Nombre <i aria-hidden="true">*</i></label>
@@ -938,7 +937,7 @@ fieldset.field{border:0;padding:0;margin:0}
               <span class="err">Seleccione una opción.</span>
             </fieldset>
           </div>
-          <div class="hp" aria-hidden="true"><label>No completar <input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+          <div class="hp" aria-hidden="true"><label>No completar <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
           <div class="form-foot">
             <small>Su confirmación se enviará a <b>medical@fluter.com.do</b>.</small>
             <button class="btn btn-red" type="submit" id="f-submit"><span class="spin" aria-hidden="true"></span><span class="lbl">Enviar</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
@@ -994,10 +993,9 @@ fieldset.field{border:0;padding:0;margin:0}
 
 <script>
 (function(){
-  /* Destino del formulario. FormSubmit reenvía cada confirmación por correo a medical@fluter.com.do
-     (el primer envío llega con un enlace "Activate Form" que se debe aprobar una sola vez).
-     Para usar otro servicio (Mailchimp, Google Apps Script, backend propio) basta con cambiar esta URL. */
-  var FORM_ENDPOINT = 'https://formsubmit.co/ajax/medical@fluter.com.do';
+  /* Destino del formulario: Formspree. Las confirmaciones llegan al correo configurado
+     en el panel de Formspree y quedan guardadas en su bandeja de envíos. */
+  var FORM_ENDPOINT = 'https://formspree.io/f/mwlpalrz';
   var FORM_EMAIL = 'medical@fluter.com.do';
   var EVENT_START = Date.UTC(2026, 9, 24, 12, 0, 0); // 24 oct 2026, 08:00 a.&nbsp;m. hora de Santo Domingo (UTC-4)
 
@@ -1082,7 +1080,7 @@ fieldset.field{border:0;padding:0;margin:0}
     input.setAttribute('aria-invalid', ok ? 'false' : 'true');
     return ok;
   }
-  form.querySelectorAll('input:not([type="hidden"]):not([name="_honey"])').forEach(function(input){
+  form.querySelectorAll('input:not([type="hidden"]):not([name="_gotcha"])').forEach(function(input){
     input.addEventListener(input.type === 'radio' ? 'change' : 'blur', function(){ if (input.type === 'radio' || input.value) validate(input); });
     input.addEventListener('input', function(){ if (fieldOf(input).classList.contains('invalid')) validate(input); });
   });
@@ -1122,7 +1120,7 @@ fieldset.field{border:0;padding:0;margin:0}
     var first = null;
     inputs.forEach(function(i){ if (!validate(i) && !first) first = i; });
     if (first){ first.focus(); return; }
-    if (form.elements._honey.value){ return; }
+    if (form.elements._gotcha.value){ return; }
 
     var data = collect();
     if (!FORM_ENDPOINT){ window.location.href = mailtoHref(data); done(data); return; }
@@ -1131,15 +1129,13 @@ fieldset.field{border:0;padding:0;margin:0}
     Object.keys(data).forEach(function(k){ payload[k] = data[k]; });
     payload._subject = 'Confirmación de asistencia · Fluter Summit 2026 · ' + data[LABELS.nombre] + ' ' + data[LABELS.apellido];
     payload._replyto = data[LABELS.email];
-    payload._template = 'table';
-    payload._captcha = 'false';
 
     btn.setAttribute('aria-busy', 'true');
     btn.querySelector('.lbl').textContent = 'Enviando…';
     fetch(FORM_ENDPOINT, {method:'POST', headers:{'Content-Type':'application/json', 'Accept':'application/json'}, body:JSON.stringify(payload)})
       .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ return {ok:r.ok, j:j}; }); })
       .then(function(res){
-        if (res.ok && String(res.j.success) === 'true'){ done(data); }
+        if (res.ok && !res.j.errors){ done(data); }
         else { showAlert(data); }
       })
       .catch(function(){ showAlert(data); })
