@@ -15,9 +15,9 @@
   body { font-family:'Rubik',system-ui,sans-serif; background:var(--paper); color:var(--ink); overflow-x:hidden; }
   #waves { position:fixed; inset:0; z-index:0; background:#fff; }
   #waves svg { display:block; width:100%; height:100%; }
-  main { position:relative; z-index:1; min-height:100vh; display:flex; justify-content:center; align-items:center; padding:clamp(20px,5vw,56px) 16px; }
-  .card { width:100%; max-width:640px; padding:clamp(24px,6vw,56px) clamp(24px,7vw,64px); background:rgba(255,255,255,.82); backdrop-filter:blur(2px); border-radius:28px; }
-  .logo { display:flex; justify-content:flex-end; margin-bottom:clamp(36px,9vw,72px); }
+  main { position:relative; z-index:1; display:flex; justify-content:center; padding:clamp(20px,5vw,56px) 16px 0; }
+  .card { width:100%; max-width:640px; padding:clamp(24px,6vw,48px) clamp(24px,7vw,64px); background:rgba(255,255,255,.82); backdrop-filter:blur(2px); border-radius:28px; }
+  .logo { display:flex; justify-content:flex-end; margin-bottom:clamp(28px,7vw,56px); }
   .logo svg { width:clamp(120px,28vw,170px); height:auto; }
   h1 { font-weight:400; font-size:clamp(34px,8.6vw,54px); line-height:1.08; letter-spacing:-.02em; }
   h1 b { font-weight:700; }
@@ -26,7 +26,7 @@
   .lead .blue { font-weight:700; color:var(--blue); }
   .cta { margin-top:clamp(24px,5vw,36px); font-size:clamp(20px,4.8vw,30px); line-height:1.25; }
   .info { margin-top:clamp(32px,7vw,56px); display:flex; align-items:center; justify-content:center; gap:clamp(16px,4vw,28px); }
-  .info svg { width:clamp(100px,24vw,150px); height:auto; flex:none; }
+  .info svg { width:clamp(110px,28vw,170px); height:auto; flex:none; }
   .sep { width:1.5px; align-self:stretch; background:var(--ink); }
   .details { display:flex; flex-direction:column; gap:4px; font-size:clamp(14px,3.4vw,20px); }
   .details .date { color:var(--blue); font-weight:700; }
@@ -38,13 +38,13 @@
 
   /* Intro: 15 fotos */
   body.intro-on { overflow:hidden; height:100vh; }
-  body.intro-on main { visibility:hidden; }
+  body.intro-on main, body.intro-on .details-sec { visibility:hidden; }
   .reveal { animation-play-state:paused; }
   body.ready .reveal { animation-play-state:running; }
   #intro { position:fixed; inset:0; z-index:10; background:rgba(255,255,255,.72); overflow:hidden; touch-action:none; transition:opacity .9s ease, transform .9s ease; }
   #intro.out { opacity:0; transform:scale(1.04); pointer-events:none; }
   #stage { position:absolute; inset:0; }
-  .photo { position:absolute; left:50%; top:50%; width:64px; height:88px; margin:-44px 0 0 -32px; perspective:800px; cursor:pointer; will-change:transform,opacity; }
+  .photo { position:absolute; left:50%; top:50%; width:64px; height:96px; margin:-48px 0 0 -32px; perspective:800px; cursor:pointer; will-change:transform,opacity; }
   .photo .in { position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .6s cubic-bezier(.2,.8,.2,1); }
   .photo:hover .in { transform:rotateY(180deg); }
   .photo .f, .photo .b { position:absolute; inset:0; border-radius:10px; overflow:hidden; backface-visibility:hidden; box-shadow:0 6px 18px rgba(20,40,120,.22); }
@@ -52,12 +52,13 @@
   .photo .f img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
   .photo .b { transform:rotateY(180deg); background:#0a0a0a; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:9px; letter-spacing:.12em; text-transform:uppercase; gap:2px; }
   .photo .b strong { color:#7fa0ff; font-size:20px; letter-spacing:0; }
-  .i-center { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); text-align:center; width:min(90vw,640px); pointer-events:none; z-index:1; }
+  .i-center { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); text-align:center; width:min(60vw,420px); pointer-events:none; z-index:1; }
   .i-center h2 { font-weight:500; font-size:clamp(26px,6vw,44px); line-height:1.12; letter-spacing:-.02em; }
   .i-center h2 b { color:var(--blue); font-weight:700; }
   .i-center p { margin-top:16px; font-size:12px; font-weight:700; letter-spacing:.2em; color:#666; }
   .i-arc { position:absolute; left:50%; top:9%; transform:translateX(-50%); text-align:center; width:min(92vw,640px); pointer-events:none; z-index:2; opacity:0; }
-  .i-arc h3 { font-weight:700; font-size:clamp(24px,5.4vw,42px); letter-spacing:-.02em; line-height:1.1; }
+  .i-arc h3 { font-weight:400; font-size:clamp(22px,5vw,40px); letter-spacing:-.02em; line-height:1.1; }
+  .i-arc h3 b { font-weight:700; }
   .i-arc p { margin-top:12px; font-size:clamp(13px,2.6vw,16px); color:#555; }
   #enter { position:absolute; left:50%; bottom:6%; transform:translate(-50%,16px); z-index:3; opacity:0; pointer-events:none; border:0; cursor:pointer; background:var(--blue); color:#fff; font:500 16px 'Rubik',sans-serif; padding:14px 28px; border-radius:999px; box-shadow:0 8px 24px rgba(47,91,234,.35); transition:opacity .5s, transform .5s; }
   #enter.show { opacity:1; transform:translate(-50%,0); pointer-events:auto; }
@@ -78,7 +79,7 @@
   @keyframes halo { 0% { transform:scale(.6); opacity:.35; } 100% { transform:scale(2.4); opacity:0; } }
 
   /* Detalles: tarjetas glass morphing */
-  .details-sec { position:relative; z-index:1; padding:clamp(40px,8vw,96px) 16px clamp(56px,10vw,120px); display:flex; flex-direction:column; align-items:center; gap:clamp(28px,5vw,48px); overflow:hidden; }
+  .details-sec { position:relative; z-index:1; padding:clamp(16px,3vw,32px) 16px clamp(56px,10vw,120px); display:flex; flex-direction:column; align-items:center; gap:clamp(28px,5vw,48px); overflow:hidden; }
   .details-sec h2 { font-weight:700; font-size:clamp(26px,5.6vw,42px); letter-spacing:-.02em; text-align:center; }
   .details-sec h2 span { color:var(--blue); }
   .glass-wrap { position:relative; width:100%; max-width:980px; }
@@ -108,7 +109,7 @@
   .glass .sub { font-size:15px; color:#444; }
   .rsvp-btn { position:relative; z-index:1; border:0; cursor:pointer; background:var(--blue); color:#fff; font:500 17px 'Rubik',sans-serif; padding:16px 34px; border-radius:999px; box-shadow:0 10px 28px rgba(47,91,234,.4); transition:transform .25s, box-shadow .25s; }
   .rsvp-btn:hover { transform:translateY(-2px); box-shadow:0 14px 34px rgba(47,91,234,.5); }
-  @media (max-width:600px){ .i-center{ width:210px; } .i-center h2{ font-size:22px; } .i-center p{ font-size:10px; letter-spacing:.14em; margin-top:10px; } }
+  @media (max-width:600px){ .i-center{ width:200px; } .i-center h2{ font-size:24px; line-height:1.15; } .i-center p{ font-size:9.5px; letter-spacing:.1em; margin-top:10px; white-space:nowrap; } }
   @media (max-width:820px){ .glass-grid{ grid-template-columns:1fr; } .glass{ min-height:0; } }
 
   /* Modal RSVP */
@@ -154,12 +155,11 @@
   <button id="skip" type="button">Saltar</button>
   <div id="stage"></div>
   <div class="i-center" id="iCenter">
-    <h2>Queremos que seas <b>parte de estos 15 años</b></h2>
+    <h2>Queremos que<br>seas <b>parte de</b><br><b>estos 15 años</b></h2>
     <p>DESLIZA PARA CONOCER MÁS</p>
   </div>
   <div class="i-arc" id="iArc">
-    <h3>15 años, 15 momentos</h3>
-    <p>Recorre nuestra historia antes de descubrir la invitación.</p>
+    <h3><b>El tiempo</b> se cuenta en años.<br><b>El crecimiento,</b> en decisiones.</h3>
   </div>
   <button id="enter" type="button">Ver invitación</button>
 </section>
@@ -170,9 +170,9 @@
       <svg viewBox="178 162 1309 464" role="img" aria-label="alpha"><path fill="#0a0a0a" fill-rule="evenodd" d="M529.4 618.5L527.0 616.1L527.2 452.9L527.5 289.8L529.9 287.9C532.0 286.2 534.0 286.0 553.2 286.0L574.2 286.0L577.1 288.9C579.9 291.7 580.0 292.2 580.0 301.2C580.0 315.0 581.9 316.1 591.2 307.5C612.6 287.7 641.2 278.1 670.7 281.0C693.6 283.2 709.1 289.0 725.8 301.7C763.1 330.1 779.4 385.6 766.0 438.5C756.1 477.6 729.3 507.9 695.0 518.8C682.6 522.7 676.9 523.5 659.5 523.4C645.4 523.4 641.0 523.0 633.7 521.2C618.1 517.3 604.3 509.8 592.1 498.4C587.8 494.4 585.4 492.9 583.8 493.2L581.5 493.5L581.0 555.3L580.5 617.2L578.1 619.1C576.0 620.8 573.9 621.0 553.8 621.0L531.9 621.0L529.4 618.5ZM247.3 522.6C227.9 518.9 215.8 512.9 204.0 501.0C189.9 487.0 184.6 473.8 184.8 453.0C184.9 430.0 191.8 414.3 207.7 401.0C215.5 394.5 223.2 390.4 235.0 386.6C254.7 380.2 258.7 379.7 299.8 379.1C335.3 378.5 337.2 378.4 338.6 376.6C342.8 370.8 336.3 348.9 327.5 339.1C323.3 334.5 312.7 328.7 305.1 327.0C297.5 325.2 279.2 326.2 272.0 328.8C258.3 333.6 251.6 339.3 246.8 349.8C245.2 353.5 243.5 357.2 243.1 358.0C241.3 361.4 237.8 362.0 217.2 362.0C190.1 362.0 188.1 361.0 191.3 348.3C193.9 338.3 197.0 331.2 202.1 323.6C221.5 294.5 263.1 277.3 304.9 281.0C350.9 284.9 379.4 307.6 391.3 349.8C393.4 357.4 393.5 359.0 393.8 435.7C394.1 513.3 394.1 513.9 392.0 516.0C390.1 517.9 388.8 518.0 370.5 518.0C351.8 518.0 351.0 517.9 349.0 515.8C347.6 514.3 347.0 512.3 347.0 509.4C347.0 501.4 343.8 498.0 336.3 498.0C333.7 498.0 331.6 498.9 328.6 501.3C317.0 510.7 305.1 516.9 291.8 520.6C280.1 523.8 258.6 524.7 247.3 522.6ZM1113.2 522.8C1084.1 518.7 1060.6 500.7 1052.4 476.5C1050.2 470.1 1049.6 466.1 1049.2 456.3C1048.4 433.7 1053.6 419.1 1067.4 405.5C1076.9 396.1 1083.2 392.2 1096.3 387.5C1116.1 380.4 1121.3 379.8 1162.5 379.3C1205.0 378.8 1204.0 379.0 1204.0 371.2C1203.9 350.3 1190.7 332.5 1171.5 327.5C1158.5 324.1 1138.2 326.5 1126.8 332.7C1119.8 336.5 1112.8 344.5 1110.1 351.8C1106.4 361.7 1107.0 361.5 1083.1 361.8C1061.1 362.1 1058.1 361.7 1055.5 357.6C1054.0 355.3 1054.0 354.6 1055.5 348.3C1056.4 344.6 1059.1 337.4 1061.5 332.5C1071.5 311.9 1089.4 296.9 1115.2 287.8C1129.9 282.7 1141.5 280.7 1158.0 280.7C1191.3 280.7 1214.8 289.5 1233.6 309.1C1245.1 321.2 1252.2 335.1 1256.4 354.0C1258.4 363.2 1258.5 365.8 1258.5 438.6C1258.5 511.1 1258.4 513.9 1256.6 515.9C1254.8 517.9 1253.8 518.0 1234.9 518.0L1215.1 518.0L1213.1 515.4C1211.6 513.5 1211.0 511.3 1211.0 507.8C1211.0 501.2 1208.0 498.0 1201.7 498.0C1198.0 498.0 1196.3 498.8 1189.9 503.6C1179.7 511.3 1172.1 515.4 1161.5 518.9C1146.9 523.7 1129.4 525.2 1113.2 522.8ZM436.1 515.4L434.0 512.7L434.0 354.3L434.0 195.9L436.5 193.5L438.9 191.0L460.8 191.0C481.2 191.0 482.8 191.1 484.8 193.0C485.9 194.1 487.2 196.5 487.5 198.2C487.8 200.0 487.9 271.9 487.8 357.8L487.5 514.2L485.1 516.1C483.0 517.8 480.9 518.0 460.5 518.0L438.1 518.0L436.1 515.4ZM804.0 516.0C802.0 514.0 802.0 512.7 802.0 354.7L802.0 195.3L804.3 193.2C806.5 191.1 807.4 191.0 828.6 191.0C850.4 191.0 850.7 191.0 852.8 193.3L855.0 195.6L855.0 250.7C855.0 299.5 855.2 306.0 856.6 307.4C858.9 309.7 859.7 309.5 865.4 304.3C888.1 283.7 923.1 275.6 955.6 283.5C965.9 286.0 981.4 293.9 989.6 300.9C1004.5 313.4 1013.5 329.6 1018.7 353.0C1020.1 359.5 1020.4 370.4 1020.7 436.5L1021.1 512.6L1019.0 515.3L1016.9 518.0L994.6 518.0C972.8 518.0 972.3 518.0 970.2 515.7C968.1 513.5 968.1 513.2 967.8 443.5C967.4 375.1 967.4 373.3 965.2 365.7C959.8 346.1 948.9 333.8 932.5 328.7C923.3 325.9 905.5 325.7 896.5 328.4C878.5 333.8 864.9 347.4 859.1 365.7C855.5 377.1 855.0 388.1 855.0 452.2C855.0 512.7 855.0 514.0 853.0 516.0C851.1 517.9 849.7 518.0 828.5 518.0C807.3 518.0 805.9 517.9 804.0 516.0ZM293.9 478.5C303.6 476.2 313.5 470.5 321.0 463.0C332.2 451.7 338.7 437.6 339.8 422.7L340.3 414.8L306.9 415.3C280.5 415.6 272.2 416.1 267.2 417.4C254.9 420.5 246.5 426.3 242.6 434.2C240.4 438.6 240.0 440.7 240.0 448.4C240.0 458.5 241.9 464.2 246.8 469.3C250.1 472.8 257.3 476.6 264.3 478.5C271.2 480.3 286.0 480.3 293.9 478.5ZM1159.4 478.0C1169.8 475.4 1177.1 471.1 1185.5 462.6C1196.6 451.5 1203.3 436.6 1204.2 421.5L1204.5 415.5L1171.5 415.5C1140.3 415.6 1138.1 415.7 1130.7 417.8C1121.1 420.5 1118.0 422.1 1112.9 426.7C1107.2 431.9 1104.8 437.1 1104.2 445.6C1103.1 463.4 1110.5 473.6 1128.0 478.2C1137.0 480.5 1149.9 480.5 1159.4 478.0ZM667.0 474.6C677.3 471.8 685.0 467.1 693.6 458.6C700.5 451.7 702.5 448.9 706.9 440.0C713.2 427.1 714.9 420.5 715.7 406.9C717.1 381.5 709.4 360.1 693.4 345.1C685.4 337.6 675.0 331.9 665.0 329.6C656.7 327.6 640.4 327.6 632.1 329.5C614.4 333.7 598.0 347.1 589.6 364.1C582.6 378.4 581.5 383.7 581.5 402.5C581.6 420.3 582.7 426.2 588.4 438.5C597.5 457.9 614.7 471.8 634.2 475.6C642.9 477.2 659.0 476.7 667.0 474.6Z"/><path fill="#2f5bea" d="M1318.0 337.1C1303.0 332.5 1294.0 315.3 1299.9 302.5C1303.7 294.1 1370.3 178.4 1372.8 175.6C1381.7 166.1 1398.9 166.8 1407.1 177.0C1410.7 181.6 1479.3 300.6 1480.8 304.9C1485.1 317.1 1477.2 332.0 1464.2 336.4C1457.7 338.7 1453.9 338.4 1442.0 335.0C1399.8 322.9 1382.5 322.9 1339.4 334.9C1328.6 338.0 1322.8 338.5 1318.0 337.1Z"/></svg>
     </div>
 
-    <h1 class="reveal" style="animation-delay:.15s"><b>El tiempo</b><br>se cuenta en años.<br><b>El crecimiento,</b><br>en decisiones.</h1>
+    
 
-    <p class="lead reveal" style="animation-delay:.3s">Han sido <b>15 años de evolución, crecimiento y decisiones que</b> <span class="blue">nos han traído hasta aquí.</span></p>
+    <p class="lead reveal" style="animation-delay:.2s">Han sido <b>15 años de evolución, crecimiento y decisiones que</b> <span class="blue">nos han traído hasta aquí.</span></p>
 
     <p class="cta reveal" style="animation-delay:.42s">Y queremos celebrarlos contigo.</p>
 
@@ -185,19 +185,12 @@
     <path fill="#0a0a0a" transform="matrix(1,0,0,-1,531.11,699.91006)" d="M0 0C5.67 0 10.07 1.79 13.17 5.38 16.28 8.97 17.99 14.23 18.31 21.2 18.42 22.8 18.47 24.89 18.47 27.46 18.47 30.03 18.41 32.12 18.31 33.72 17.99 40.57 16.28 45.82 13.17 49.46 10.06 53.1 5.67 54.92 0 54.92-5.67 54.92-10.07 53.1-13.17 49.46-16.28 45.82-17.99 40.57-18.31 33.72-18.42 32.11-18.47 30.03-18.47 27.46-18.47 24.89-18.42 22.8-18.31 21.2-17.99 14.23-16.28 8.97-13.17 5.38-10.07 1.79-5.68 0 0 0M0-15.9C-8.56-15.9-15.77-14.4-21.6-11.4-27.44-8.41-31.88-4.18-34.93 1.29-37.98 6.75-39.72 13.12-40.15 20.4-40.26 22.33-40.31 24.68-40.31 27.47-40.31 30.26-40.26 32.61-40.15 34.54-39.72 41.93-37.93 48.32-34.77 53.73-31.61 59.14-27.12 63.34-21.28 66.34-15.45 69.34-8.35 70.84 0 70.84 8.35 70.84 15.45 69.34 21.28 66.34 27.11 63.34 31.61 59.14 34.77 53.73 37.93 48.32 39.72 41.93 40.15 34.54 40.25 32.61 40.31 30.26 40.31 27.47 40.31 24.68 40.25 22.33 40.15 20.4 39.72 13.12 37.98 6.75 34.93 1.29 31.88-4.17 27.44-8.4 21.6-11.4 15.76-14.4 8.56-15.9 0-15.9Z"/>
     <path fill="#0a0a0a" transform="matrix(1,0,0,-1,620.9,715.81)" d="M0 0C-6.43 0-11.91 .75-16.46 2.25-21.01 3.75-24.73 5.62-27.62 7.87-30.51 10.12-32.65 12.37-34.04 14.62-35.43 16.87-36.19 18.74-36.29 20.24-36.4 21.42-36.05 22.35-35.25 23.05-34.45 23.75-33.56 24.09-32.6 24.09H-19.91C-19.48 24.09-19.11 24.04-18.79 23.93-18.47 23.82-18.04 23.5-17.51 22.97-16.12 21.79-14.65 20.56-13.09 19.28-11.54 18-9.69 16.89-7.55 15.99-5.41 15.08-2.73 14.63 .48 14.63 4.65 14.63 8.16 15.45 11 17.12 13.83 18.78 15.25 21.16 15.25 24.26 15.25 26.51 14.63 28.33 13.4 29.72 12.17 31.11 9.89 32.37 6.57 33.5 3.25 34.62-1.46 35.83-7.57 37.11-13.57 38.5-18.55 40.27-22.5 42.41-26.46 44.55-29.41 47.23-31.33 50.44-33.26 53.65-34.22 57.4-34.22 61.68-34.22 65.96-32.96 69.84-30.44 73.65-27.93 77.45-24.18 80.58-19.2 83.04-14.22 85.5-8.03 86.74-.65 86.74 5.13 86.74 10.16 86.02 14.45 84.57 18.73 83.13 22.29 81.33 25.13 79.19 27.97 77.05 30.14 74.88 31.64 72.69 33.14 70.49 33.94 68.59 34.05 66.99 34.16 65.81 33.83 64.87 33.09 64.18 32.34 63.48 31.49 63.14 30.52 63.14H18.63C18.09 63.14 17.61 63.24 17.19 63.46 16.76 63.67 16.33 63.94 15.91 64.26 14.73 65.33 13.45 66.45 12.05 67.63 10.66 68.81 8.97 69.85 6.99 70.76 5 71.67 2.41 72.13-.8 72.13-4.87 72.13-7.98 71.25-10.12 69.48-12.27 67.71-13.33 65.49-13.33 62.81-13.33 60.99-12.82 59.41-11.8 58.07-10.79 56.73-8.72 55.47-5.62 54.29-2.52 53.11 2.19 51.88 8.51 50.59 15.68 49.31 21.39 47.4 25.62 44.89 29.85 42.37 32.85 39.48 34.61 36.22 36.38 32.95 37.26 29.34 37.26 25.38 37.26 20.56 35.84 16.23 33 12.37 30.16 8.51 25.99 5.48 20.47 3.3 14.95 1.1 8.13 .01-.01 .01Z"/>
       </svg>
-      <div class="sep"></div>
-      <div class="details">
-        <span class="date">4 de Noviembre</span>
-        <span>7:00 p.m.</span>
-        <span class="place">Museo de Arte Moderno</span>
-        <span class="tag">Tu inversión, tu decisión.</span>
-      </div>
+      
     </div>
   </article>
 </main>
 
 <section class="details-sec" id="detalles">
-  <h2 class="glass-title">Todo lo que necesitas <span>saber</span></h2>
   <div class="glass-wrap">
     <div class="blobs" aria-hidden="true"><div class="blob"></div><div class="blob"></div><div class="blob"></div></div>
     <div class="glass-grid">
