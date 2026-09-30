@@ -331,6 +331,18 @@ td.tool{font-weight:500;white-space:nowrap}
 .rolecell.core .rd{color:rgba(255,255,255,.88)}
 
 .attgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 40px;margin-top:6px}
+.attgrid.three{grid-template-columns:repeat(3,1fr);gap:15px 32px}
+.mixgrid{display:grid;grid-template-columns:1.3fr .8fr 1.05fr;gap:30px;margin-bottom:20px;
+  padding-bottom:18px;border-bottom:1px solid var(--line)}
+.mixh{font-family:var(--display);font-weight:700;font-size:clamp(12px,1.05vw,15px);
+  text-transform:uppercase;letter-spacing:-.01em;margin-bottom:9px;line-height:1.25}
+.mixh span{display:block;font-family:var(--body);font-weight:300;font-size:10.5px;
+  text-transform:none;letter-spacing:0;color:var(--gray);margin-top:3px}
+.mixrow{display:flex;gap:9px;align-items:baseline;font-size:12.5px;font-weight:300;padding:2.5px 0}
+.mixrow b{font-family:var(--display);font-weight:800;font-size:14px;color:var(--orange);
+  min-width:20px;letter-spacing:-.02em}
+.mixnote{font-size:12px;line-height:1.55;font-weight:300;color:var(--gray)}
+.mixnote b{color:var(--black);font-weight:600}
 .attblk .at{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
   color:var(--orange);margin-bottom:7px}
 .attblk .ad{font-size:clamp(12.5px,1.02vw,15px);line-height:1.55;font-weight:300}
@@ -379,7 +391,7 @@ td.tool{font-weight:500;white-space:nowrap}
 
 @media(max-width:900px){
   .rolegrid{grid-template-columns:repeat(2,1fr)}
-  .attgrid,.twolayer{grid-template-columns:1fr}
+  .attgrid,.attgrid.three,.twolayer,.mixgrid{grid-template-columns:1fr}
 }
 
 ::selection{background:var(--orange);color:#fff}
@@ -1671,9 +1683,27 @@ td.tool{font-weight:500;white-space:nowrap}
   <div class="content">
     <div class="eyebrow anim">Gestión mensual</div>
     <h1 class="big anim" style="max-width:18ch;font-size:clamp(22px,3.1vw,40px);margin-bottom:14px;">Alcance del Servicio.</h1>
-    <p class="lead anim" style="margin-bottom:6px;max-width:88ch;">Producción mensual de <strong>30 publicaciones en Instagram con publicación espejo en Facebook</strong>, con contenido variado entre reels, carruseles y estáticos, más <strong>15 TikToks</strong> y <strong>15 Stories</strong>.</p>
-    <p class="lead anim muted" style="margin-bottom:24px;max-width:88ch;">El mix exacto se define cada ciclo según los objetivos del mes y el calendario comercial, manteniendo la flexibilidad de mover el peso entre formatos sin alterar el volumen total ni el fee.</p>
-    <div class="attgrid anim">
+    <div class="mixgrid anim">
+      <div>
+        <div class="mixh">30 publicaciones Instagram<span>Con publicación espejo en Facebook</span></div>
+        <div class="mixrow"><b>8</b> Animaciones 2D</div>
+        <div class="mixrow"><b>8</b> Carruseles</div>
+        <div class="mixrow"><b>10</b> Post estático / fotográfico</div>
+        <div class="mixrow"><b>4</b> Reels orgánicos</div>
+      </div>
+      <div>
+        <div class="mixh">15 TikToks<span>Formato nativo de plataforma</span></div>
+      </div>
+      <div>
+        <div class="mixh">15 Stories<span>Instagram</span></div>
+        <div class="mixnote">Diseños estáticos y <b>stories interactivas</b> con stickers de poll, select e insert.</div>
+      </div>
+    </div>
+    <div class="attgrid three anim">
+      <div class="attblk">
+        <div class="at">Product shoot incluido</div>
+        <div class="ad">El fee cubre la <b>producción fotográfica y de video de producto</b>, sin talento de rostro, solo manos. Se complementa con el banco de contenido ya producido por la marca.</div>
+      </div>
       <div class="attblk">
         <div class="at">Guía de contenido</div>
         <div class="ad">Creación de la <b>guía de contenido</b> que define territorios, formatos, tono y uso de marca para el canal local.</div>
@@ -1687,10 +1717,15 @@ td.tool{font-weight:500;white-space:nowrap}
         <div class="ad">Gestión de la conversación en <b>horario laboral</b>, con un gap de respuesta máximo de <b>1 hora</b>.</div>
       </div>
       <div class="attblk">
+        <div class="at">Gestión de YouTube</div>
+        <div class="ad">Subida de videos, actualización del canal y <b>creación de portadas</b>. Opera sobre el contenido ya existente, sin producción de piezas nuevas para la plataforma.</div>
+      </div>
+      <div class="attblk">
         <div class="at">Reportería de desempeño</div>
         <div class="ad">Acceso a <b>reportería dinámica</b> con visibilidad de desempeño de los contenidos e insights.</div>
       </div>
     </div>
+    <p class="lead anim muted" style="margin-top:20px;max-width:96ch;font-size:12px;">El mix se define cada ciclo según los objetivos del mes y el calendario comercial, manteniendo la flexibilidad de mover el peso entre formatos sin alterar el volumen total ni el fee.</p>
   </div>
 </section>
 
@@ -1730,7 +1765,7 @@ td.tool{font-weight:500;white-space:nowrap}
     <h1 class="big anim" style="max-width:14ch;font-size:clamp(22px,3.1vw,40px);margin-bottom:20px;">Fee mensual.</h1>
     <div class="anim">
       <div class="feerow">
-        <div><div class="fc">Fee mensual Social Media · por marca</div><div class="fd">30 publicaciones IG con espejo en Facebook · 15 TikToks · 15 Stories · Guía de contenido · Publicación de influencers y UGC · Community Management · Reportería de desempeño</div></div>
+        <div><div class="fc">Fee mensual Social Media · por marca</div><div class="fd">30 publicaciones IG con espejo en Facebook · 15 TikToks · 15 Stories · Product shoot de producto · Guía de contenido · Influencers y UGC · Community Management · Gestión de YouTube · Reportería de desempeño</div></div>
         <div><div class="fm">USD$2,321</div><div class="fs">/ mes + impuestos</div></div>
       </div>
       <div class="feerow" style="background:rgba(255,87,13,.07);padding-left:16px;padding-right:16px;">
@@ -1748,16 +1783,16 @@ td.tool{font-weight:500;white-space:nowrap}
         <div class="addon">
           <div class="addonh"><div class="an">Coberturas</div><div class="av" style="font-size:10px;font-family:var(--body);font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gray)">Por evento</div></div>
           <div class="arow">
-            <div class="at">Video recap de evento<span>3 horas · locación Santo Domingo</span></div>
-            <div class="av">USD$1,100</div>
+            <div class="at">Video recap de evento<span>4 horas · locación Santo Domingo</span></div>
+            <div class="av">USD$1,320</div>
           </div>
           <div class="arow">
-            <div class="at">Fotografía profesional de evento<span>3 horas · locación Santo Domingo</span></div>
-            <div class="av">USD$375</div>
+            <div class="at">Fotografía profesional de evento<span>4 horas · locación Santo Domingo</span></div>
+            <div class="av">USD$450</div>
           </div>
           <div class="arow">
-            <div class="at">Cobertura social media orgánica<span>Fee + historias · 3 horas · locación Santo Domingo</span></div>
-            <div class="av">USD$350</div>
+            <div class="at">Cobertura social media orgánica<span>Fee + historias · 4 horas · locación Santo Domingo</span></div>
+            <div class="av">USD$420</div>
           </div>
         </div>
       </div>
