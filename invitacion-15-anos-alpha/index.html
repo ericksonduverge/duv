@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invitación 15 años Alpha</title>
+<meta name="description" content="Alpha cumple 15 años. Acompáñanos el 4 de noviembre, 7:00 p.m., Museo de Arte Moderno.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --blue:#2f5bea; --ink:#0a0a0a; --paper:#f8f8f8; }
+  * { box-sizing:border-box; margin:0; }
+  html,body { min-height:100%; }
+  body { font-family:'Rubik',system-ui,sans-serif; background:var(--paper); color:var(--ink); overflow-x:hidden; }
+  #waves { position:fixed; inset:0; z-index:0; background:#fff; }
+  #waves svg { display:block; width:100%; height:100%; }
+  main { position:relative; z-index:1; min-height:100vh; display:flex; justify-content:center; align-items:center; padding:clamp(20px,5vw,56px) 16px; }
+  .card { width:100%; max-width:640px; padding:clamp(24px,6vw,56px) clamp(24px,7vw,64px); background:rgba(255,255,255,.82); backdrop-filter:blur(2px); border-radius:28px; }
+  .logo { display:flex; justify-content:flex-end; margin-bottom:clamp(36px,9vw,72px); }
+  .logo svg { width:clamp(130px,30vw,180px); height:auto; }
+  h1 { font-weight:400; font-size:clamp(34px,8.6vw,54px); line-height:1.08; letter-spacing:-.02em; }
+  h1 b { font-weight:700; }
+  .lead { margin-top:clamp(28px,6vw,44px); font-size:clamp(20px,4.8vw,30px); line-height:1.25; font-weight:400; letter-spacing:-.01em; }
+  .lead b { font-weight:700; }
+  .lead .blue { font-weight:700; color:var(--blue); }
+  .cta { margin-top:clamp(24px,5vw,36px); font-size:clamp(20px,4.8vw,30px); line-height:1.25; }
+  .info { margin-top:clamp(32px,7vw,56px); display:flex; align-items:center; justify-content:center; gap:clamp(16px,4vw,28px); }
+  .info svg { width:clamp(110px,26vw,160px); height:auto; flex:none; }
+  .sep { width:1.5px; align-self:stretch; background:var(--ink); }
+  .details { display:flex; flex-direction:column; gap:4px; font-size:clamp(14px,3.4vw,20px); }
+  .details .date { color:var(--blue); font-weight:700; }
+  .details .place { font-weight:700; }
+  .details .tag { margin-top:8px; font-size:.85em; }
+  .reveal { opacity:0; transform:translateY(18px); animation:up .8s cubic-bezier(.2,.7,.2,1) forwards; }
+  @keyframes up { to { opacity:1; transform:none; } }
+  @media (prefers-reduced-motion:reduce){ .reveal{animation:none;opacity:1;transform:none;} }
+</style>
+</head>
+<body>
+<div id="waves" aria-hidden="true"></div>
+
+<main>
+  <article class="card">
+    <div class="logo reveal" style="animation-delay:.05s">
+      <svg viewBox="0 0 215 70" role="img" aria-label="alpha">
+        <text x="0" y="56" font-family="Rubik,sans-serif" font-weight="500" font-size="72" letter-spacing="-3" fill="#0a0a0a">alpha</text>
+        <path d="M200 6 L212 24 Q214 28 210 28 L190 28 Q186 28 188 24 Z" fill="#1d6cf5"/>
+      </svg>
+    </div>
+
+    <h1 class="reveal" style="animation-delay:.15s"><b>El tiempo</b><br>se cuenta en años.<br><b>El crecimiento,</b><br>en decisiones.</h1>
+
+    <p class="lead reveal" style="animation-delay:.3s">Han sido <b>15 años de evolución, crecimiento y decisiones que</b> <span class="blue">nos han traído hasta aquí.</span></p>
+
+    <p class="cta reveal" style="animation-delay:.42s">Y queremos celebrarlos contigo.</p>
+
+    <div class="info reveal" style="animation-delay:.55s">
+      <svg viewBox="0 0 260 380" role="img" aria-label="15 años">
+        <g fill="none" stroke="#2f5bea" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 60 L72 12 V160"/>
+          <path d="M130 12 V110 H168 C228 110 250 165 250 235 C250 305 200 345 110 345"/>
+          <path d="M130 12 L168 50"/>
+        </g>
+        <text x="20" y="270" font-family="Rubik,sans-serif" font-weight="700" font-size="66" fill="#0a0a0a">años</text>
+      </svg>
+      <div class="sep"></div>
+      <div class="details">
+        <span class="date">4 de Noviembre</span>
+        <span>7:00 p.m.</span>
+        <span class="place">Museo de Arte Moderno</span>
+        <span class="tag">Tu inversión, tu decisión.</span>
+      </div>
+    </div>
+  </article>
+</main>
+
+<script>
+/* Fondo de ondas: fondo blanco, líneas azules (port vanilla de wave-background.tsx) */
+(function () {
+  // Ruido simplex 2D compacto
+  const F2 = .5*(Math.sqrt(3)-1), G2 = (3-Math.sqrt(3))/6;
+  const perm = new Uint8Array(512), grad = [[1,1],[-1,1],[1,-1],[-1,-1],[1,0],[-1,0],[0,1],[0,-1]];
+  const p = Array.from({length:256},(_,i)=>i).sort(()=>Math.random()-.5);
+  for (let i=0;i<512;i++) perm[i]=p[i&255];
+  function noise(x,y){
+    const s=(x+y)*F2, i=Math.floor(x+s), j=Math.floor(y+s), t=(i+j)*G2;
+    const x0=x-(i-t), y0=y-(j-t), i1=x0>y0?1:0, j1=x0>y0?0:1;
+    const x1=x0-i1+G2, y1=y0-j1+G2, x2=x0-1+2*G2, y2=y0-1+2*G2, ii=i&255, jj=j&255;
+    const c=(xx,yy,gi)=>{ const t=.5-xx*xx-yy*yy; if(t<0) return 0; const g=grad[gi&7]; return t*t*t*t*(g[0]*xx+g[1]*yy); };
+    return 70*(c(x0,y0,perm[ii+perm[jj]])+c(x1,y1,perm[ii+i1+perm[jj+j1]])+c(x2,y2,perm[ii+1+perm[jj+1]]));
+  }
+
+  const STROKE = '#2f5bea', OPACITY = .22;
+  const box = document.getElementById('waves');
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  box.appendChild(svg);
+  let lines = [], paths = [], W = 0, H = 0;
+  const m = { x:-999, y:0, sx:-999, sy:0, lx:0, ly:0, v:0, vs:0, a:0, set:false };
+
+  function build() {
+    W = box.clientWidth; H = box.clientHeight;
+    svg.setAttribute('width', W); svg.setAttribute('height', H);
+    paths.forEach(p => p.remove()); paths = []; lines = [];
+    const gap = W < 600 ? 12 : 9, n = Math.ceil((W+200)/gap), pts = Math.ceil((H+30)/gap);
+    const x0 = (W - gap*n)/2, y0 = (H - gap*pts)/2;
+    for (let i=0;i<n;i++){
+      const col = [];
+      for (let j=0;j<pts;j++) col.push({ x:x0+gap*i, y:y0+gap*j, wx:0, wy:0, cx:0, cy:0, vx:0, vy:0 });
+      lines.push(col);
+      const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('fill','none'); path.setAttribute('stroke',STROKE);
+      path.setAttribute('stroke-width','1'); path.setAttribute('stroke-opacity',OPACITY);
+      svg.appendChild(path); paths.push(path);
+    }
+  }
+  function pointer(x,y){
+    m.x = x; m.y = y;
+    if (!m.set){ m.sx=m.lx=x; m.sy=m.ly=y; m.set=true; }
+  }
+  addEventListener('mousemove', e => pointer(e.clientX, e.clientY));
+  addEventListener('touchmove', e => { const t=e.touches[0]; pointer(t.clientX,t.clientY); }, {passive:true});
+  addEventListener('resize', build);
+
+  function tick(time){
+    m.sx += (m.x-m.sx)*.1; m.sy += (m.y-m.sy)*.1;
+    const dx=m.x-m.lx, dy=m.y-m.ly, d=Math.hypot(dx,dy);
+    m.v=d; m.vs += (d-m.vs)*.1; m.vs=Math.min(100,m.vs);
+    m.lx=m.x; m.ly=m.y; m.a=Math.atan2(dy,dx);
+    for (let l=0;l<lines.length;l++){
+      const col=lines[l]; let dstr='';
+      for (let k=0;k<col.length;k++){
+        const p=col[k];
+        const mv = noise((p.x+time*.008)*.003,(p.y+time*.003)*.002)*8;
+        p.wx=Math.cos(mv)*12; p.wy=Math.sin(mv)*6;
+        const ddx=p.x-m.sx, ddy=p.y-m.sy, dd=Math.hypot(ddx,ddy), L=Math.max(175,m.vs);
+        if (dd<L){ const s=1-dd/L, f=Math.cos(dd*.001)*s;
+          p.vx+=Math.cos(m.a)*f*L*m.vs*.00035; p.vy+=Math.sin(m.a)*f*L*m.vs*.00035; }
+        p.vx+=-p.cx*.01; p.vy+=-p.cy*.01; p.vx*=.95; p.vy*=.95;
+        p.cx=Math.max(-50,Math.min(50,p.cx+p.vx)); p.cy=Math.max(-50,Math.min(50,p.cy+p.vy));
+        const x=p.x+p.wx+(k?p.cx:0), y=p.y+p.wy+(k?p.cy:0);
+        dstr += (k?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);
+      }
+      paths[l].setAttribute('d',dstr);
+    }
+    requestAnimationFrame(tick);
+  }
+  build();
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
