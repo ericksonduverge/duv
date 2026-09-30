@@ -81,15 +81,17 @@
   @keyframes halo { 0% { transform:scale(.6); opacity:.35; } 100% { transform:scale(2.4); opacity:0; } }
 
   /* Detalles: tarjetas glass morphing */
-  .details-sec { position:relative; z-index:1; padding:clamp(16px,3vw,32px) 16px clamp(56px,10vw,120px); display:flex; flex-direction:column; align-items:center; gap:clamp(28px,5vw,48px); overflow:hidden; }
+  .details-sec { position:relative; z-index:1; padding:clamp(16px,3vw,32px) 16px clamp(56px,10vw,120px); display:flex; flex-direction:column; align-items:center; gap:clamp(28px,5vw,48px); }
   .details-sec h2 { font-weight:700; font-size:clamp(26px,5.6vw,42px); letter-spacing:-.02em; text-align:center; }
   .details-sec h2 span { color:var(--blue); }
   .glass-wrap { position:relative; width:100%; max-width:980px; }
-  .blobs { position:absolute; inset:-40px; z-index:0; pointer-events:none; filter:blur(38px); }
-  .blob { position:absolute; width:46%; aspect-ratio:1; background:radial-gradient(circle at 30% 30%,#6b8ff7,#2f5bea); opacity:.55; animation:morph 9s ease-in-out infinite, drift 14s ease-in-out infinite; }
-  .blob:nth-child(1){ left:0; top:10%; }
-  .blob:nth-child(2){ left:30%; top:30%; background:radial-gradient(circle at 30% 30%,#9db6ff,#1d6cf5); animation-delay:-3s,-5s; }
-  .blob:nth-child(3){ right:0; top:0; animation-delay:-6s,-9s; }
+  .page { position:relative; overflow-x:clip; }
+  .blobs { position:absolute; left:50%; top:60px; bottom:0; width:min(1100px,100%); transform:translateX(-50%); z-index:0; pointer-events:none; filter:blur(38px); }
+  .blob { position:absolute; width:clamp(240px,42vw,460px); aspect-ratio:1; background:radial-gradient(circle at 30% 30%,#6b8ff7,#2f5bea); opacity:.5; animation:morph 9s ease-in-out infinite, drift 14s ease-in-out infinite; }
+  .blob:nth-child(1){ left:0; top:6%; }
+  .blob:nth-child(2){ left:32%; top:30%; background:radial-gradient(circle at 30% 30%,#9db6ff,#1d6cf5); animation-delay:-3s,-5s; }
+  .blob:nth-child(3){ right:0; top:10%; animation-delay:-6s,-9s; }
+  .blob:nth-child(4){ left:6%; top:58%; background:radial-gradient(circle at 30% 30%,#9db6ff,#2f5bea); animation-delay:-8s,-2s; }
   @keyframes morph { 0%,100%{ border-radius:60% 40% 55% 45%/50% 60% 40% 50%; } 33%{ border-radius:40% 60% 45% 55%/60% 40% 60% 40%; } 66%{ border-radius:55% 45% 60% 40%/40% 55% 45% 60%; } }
   @keyframes drift { 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(6%,8%) scale(1.15); } }
   .glass-grid { position:relative; z-index:1; display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
@@ -174,6 +176,8 @@
   </div>
 </section>
 
+<div class="page">
+<div class="blobs" aria-hidden="true"><div class="blob"></div><div class="blob"></div><div class="blob"></div><div class="blob"></div></div>
 <main>
   <article class="card">
     
@@ -190,7 +194,6 @@
 
 <section class="details-sec" id="detalles">
   <div class="glass-wrap">
-    <div class="blobs" aria-hidden="true"><div class="blob"></div><div class="blob"></div><div class="blob"></div></div>
     <div class="glass-grid">
       <div class="glass">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div>
@@ -214,6 +217,7 @@
   </div>
   <button class="rsvp-btn" id="openRsvp" type="button">Confirmar asistencia</button>
 </section>
+</div>
 
 <div id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
   <div class="sheet">
