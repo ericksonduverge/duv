@@ -467,8 +467,8 @@ fieldset.field{border:0;padding:0;margin:0}
 .istat{grid-area:1/1;text-align:center;padding:0 var(--gutter)}
 .istat .mask{overflow:hidden;display:block;padding-bottom:.04em}
 .istat b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(130px,26vw,380px);line-height:.86;letter-spacing:-.06em;color:var(--yellow);transform:translateY(105%);transition:transform .9s cubic-bezier(.7,0,.2,1);font-variant-numeric:tabular-nums}
-.istat p{margin-top:clamp(10px,2vh,22px);font-family:var(--display);font-weight:500;font-size:clamp(17px,2.1vw,28px);line-height:1.3;letter-spacing:.02em;max-width:26ch;margin-inline:auto;opacity:0;transform:translateY(16px);transition:opacity .6s,transform .8s var(--ease)}
-.istat p small{display:block;margin-bottom:8px;font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--yellow)}
+.istat p{margin-top:clamp(10px,2vh,22px);font-family:var(--display);font-weight:500;font-size:clamp(15px,2.1vw,28px);line-height:1.3;letter-spacing:.02em;white-space:nowrap;margin-inline:auto;opacity:0;transform:translateY(16px);transition:opacity .6s,transform .8s var(--ease)}
+.istat p small{display:block;white-space:normal;margin-bottom:8px;font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--yellow)}
 .istat.on b{transform:none}
 .istat.on p{opacity:1;transform:none;transition-delay:.25s}
 .istat.off b{transform:translateY(-105%);transition-duration:.7s}
@@ -478,7 +478,7 @@ fieldset.field{border:0;padding:0;margin:0}
 .intro-final .edition{font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--yellow);opacity:0;transform:translateY(12px);transition:opacity .6s,transform .8s var(--ease)}
 .intro-logo{width:min(64vw,440px);clip-path:inset(0 0 100% 0);transform:translateY(24px) scale(.96);transition:clip-path 1.2s cubic-bezier(.7,0,.2,1),transform 1.4s var(--ease)}
 .intro-logo svg{width:100%;height:auto}
-.intro-final .tag{font-family:var(--display);font-weight:300;font-size:clamp(19px,2vw,26px);max-width:28ch;opacity:0;transform:translateY(14px);transition:opacity .7s,transform .9s var(--ease)}
+.intro-final .tag{font-family:var(--display);font-weight:300;font-size:clamp(15px,4.2vw,26px);white-space:nowrap;opacity:0;transform:translateY(14px);transition:opacity .7s,transform .9s var(--ease)}
 .intro-final .tag strong{font-weight:600}
 .intro-enter{pointer-events:auto;position:relative;opacity:0;transform:translateY(14px);transition:opacity .6s,transform .8s var(--ease),box-shadow .25s,background .25s}
 .intro-enter::after{content:"";position:absolute;inset:-2px;border-radius:inherit;border:2px solid var(--yellow);animation:ring 2s ease-out infinite}
@@ -613,7 +613,7 @@ fieldset.field{border:0;padding:0;margin:0}
   <div class="intro-brand" aria-hidden="true"><svg viewBox="0 0 142.1 116.400028"><use href="#logo-summit"/></svg></div>
   <div class="intro-stats" aria-live="polite">
     <div class="istat"><span class="mask"><b data-to="24">24</b></span><p><small>Sábado · 08:00&nbsp;a.&nbsp;m.</small>de octubre de 2026, en Santo Domingo</p></div>
-    <div class="istat"><span class="mask"><b data-to="4">4</b></span><p><small>Expositores</small>especialistas nacionales e internacionales</p></div>
+    <div class="istat"><span class="mask"><b data-to="4">4</b></span><p><small>Nacionales e internacionales</small>conferencistas y 1 moderadora</p></div>
     <div class="istat"><span class="mask"><b data-to="2">2</b></span><p><small>Países</small>República Dominicana y Estados Unidos</p></div>
     <div class="istat"><span class="mask"><b data-to="1">1</b></span><p><small>Invitado institucional internacional</small>Mass General Brigham</p></div>
   </div>
