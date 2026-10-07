@@ -892,12 +892,12 @@ fieldset.field{border:0;padding:0;margin:0}
           <div class="fields">
             <div class="field">
               <label for="f-nombre">Nombre <i aria-hidden="true">*</i></label>
-              <input id="f-nombre" name="nombre" type="text" autocomplete="given-name" required placeholder="Su nombre">
+              <input id="f-nombre" name="FNAME" type="text" autocomplete="given-name" required placeholder="Su nombre">
               <span class="err">Ingrese su nombre.</span>
             </div>
             <div class="field">
               <label for="f-apellido">Apellido <i aria-hidden="true">*</i></label>
-              <input id="f-apellido" name="apellido" type="text" autocomplete="family-name" required placeholder="Su apellido">
+              <input id="f-apellido" name="LNAME" type="text" autocomplete="family-name" required placeholder="Su apellido">
               <span class="err">Ingrese su apellido.</span>
             </div>
             <div class="field">
@@ -907,12 +907,12 @@ fieldset.field{border:0;padding:0;margin:0}
             </div>
             <div class="field">
               <label for="f-tel">Teléfono <i aria-hidden="true">*</i></label>
-              <input id="f-tel" name="telefono" type="tel" autocomplete="tel" inputmode="tel" required placeholder="(809) 000-0000" pattern="[0-9+()\-\s.]{7,}">
+              <input id="f-tel" name="PHONE" type="tel" autocomplete="tel" inputmode="tel" required placeholder="(809) 000-0000" pattern="[0-9+()\-\s.]{7,}">
               <span class="err">Ingrese un número de teléfono válido.</span>
             </div>
             <div class="field">
               <label for="f-esp">Especialidad <i aria-hidden="true">*</i></label>
-              <input id="f-esp" name="especialidad" type="text" list="especialidades" required placeholder="Ej.: Cirugía vascular">
+              <input id="f-esp" name="ESPECIALIDAD" type="text" list="especialidades" required placeholder="Ej.: Cirugía vascular">
               <datalist id="especialidades">
                 <option value="Angiología y Cirugía Vascular"></option>
                 <option value="Cirugía Cardiovascular"></option>
@@ -928,14 +928,14 @@ fieldset.field{border:0;padding:0;margin:0}
             </div>
             <div class="field">
               <label for="f-centro">Centro médico <i aria-hidden="true">*</i></label>
-              <input id="f-centro" name="centro_medico" type="text" autocomplete="organization" required placeholder="Centro donde labora">
+              <input id="f-centro" name="CENTRO" type="text" autocomplete="organization" required placeholder="Centro donde labora">
               <span class="err">Indique su centro médico.</span>
             </div>
             <fieldset class="field full" id="f-asist">
               <legend>Confirmación de asistencia <i aria-hidden="true">*</i></legend>
               <div class="seg">
-                <label><input type="radio" name="asistencia" value="Sí" required><span class="dot"></span>Sí, asistiré</label>
-                <label><input type="radio" name="asistencia" value="No"><span class="dot"></span>No podré asistir</label>
+                <label><input type="radio" name="ASISTENCIA" value="Sí" required><span class="dot"></span>Sí, asistiré</label>
+                <label><input type="radio" name="ASISTENCIA" value="No"><span class="dot"></span>No podré asistir</label>
               </div>
               <span class="err">Seleccione una opción.</span>
             </fieldset>
@@ -1068,7 +1068,9 @@ fieldset.field{border:0;padding:0;margin:0}
   var card = document.getElementById('form-card');
   var alertBox = document.getElementById('form-alert');
   var btn = document.getElementById('f-submit');
-  var LABELS = {nombre:'Nombre', apellido:'Apellido', email:'Correo electrónico', telefono:'Teléfono', especialidad:'Especialidad', centro_medico:'Centro médico', asistencia:'Confirmación de asistencia'};
+  /* Los nombres de campo coinciden con las etiquetas de Mailchimp (FNAME, LNAME, email, PHONE…)
+     para que la integración Formspree → Mailchimp los asigne directamente. */
+  var LABELS = {FNAME:'Nombre', LNAME:'Apellido', email:'Correo electrónico', PHONE:'Teléfono', ESPECIALIDAD:'Especialidad', CENTRO:'Centro médico', ASISTENCIA:'Confirmación de asistencia'};
 
   function fieldOf(input){ return input.closest('.field'); }
   function validate(input){
@@ -1088,12 +1090,17 @@ fieldset.field{border:0;padding:0;margin:0}
     input.addEventListener('input', function(){ if (fieldOf(input).classList.contains('invalid')) validate(input); });
   });
 
-  function collect(){
-    var data = {};
+  function values(){
+    var v = {};
     Object.keys(LABELS).forEach(function(k){
-      var v = k === 'asistencia' ? (form.querySelector('input[name="asistencia"]:checked') || {}).value : form.elements[k].value;
-      data[LABELS[k]] = (v || '').trim();
+      var x = k === 'ASISTENCIA' ? (form.querySelector('input[name="ASISTENCIA"]:checked') || {}).value : form.elements[k].value;
+      v[k] = (x || '').trim();
     });
+    return v;
+  }
+  function collect(){
+    var v = values(), data = {};
+    Object.keys(LABELS).forEach(function(k){ data[LABELS[k]] = v[k]; });
     return data;
   }
   function mailtoHref(data){
@@ -1105,8 +1112,8 @@ fieldset.field{border:0;padding:0;margin:0}
     alertBox.classList.add('show');
   }
   function done(data){
-    var yes = data[LABELS.asistencia] === 'Sí';
-    var name = data[LABELS.nombre];
+    var yes = data[LABELS.ASISTENCIA] === 'Sí';
+    var name = data[LABELS.FNAME];
     document.getElementById('done-title').textContent = yes ? '¡Gracias por confirmar' + (name ? ', ' + name : '') + '!' : 'Gracias por informarnos' + (name ? ', ' + name : '');
     document.getElementById('done-text').textContent = yes
       ? 'Hemos recibido su confirmación. Le esperamos el sábado 24 de octubre de 2026 a las 08:00\u00a0a.\u00a0m. en el InterContinental Real Santo Domingo.'
@@ -1128,9 +1135,8 @@ fieldset.field{border:0;padding:0;margin:0}
     var data = collect();
     if (!FORM_ENDPOINT){ window.location.href = mailtoHref(data); done(data); return; }
 
-    var payload = {};
-    Object.keys(data).forEach(function(k){ payload[k] = data[k]; });
-    payload._subject = 'Confirmación de asistencia · Fluter Summit 2026 · ' + data[LABELS.nombre] + ' ' + data[LABELS.apellido];
+    var payload = values();
+    payload._subject = 'Confirmación de asistencia · Fluter Summit 2026 · ' + data[LABELS.FNAME] + ' ' + data[LABELS.LNAME];
     payload._replyto = data[LABELS.email];
 
     btn.setAttribute('aria-busy', 'true');
