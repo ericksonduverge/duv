@@ -420,6 +420,8 @@
   // Modal
   // Las respuestas se envían a Formspree, que las pasa a la audiencia de Mailchimp
   const FORM_ENDPOINT = 'https://formspree.io/f/xrpeqkwa';
+  // Tag de Mailchimp (debe existir en tu cuenta con este nombre exacto; varios tags separados por coma)
+  const MAILCHIMP_TAG = '15 años Alpha';
   const modal=document.getElementById('modal'), form=document.getElementById('rsvp');
   const formView=document.getElementById('formView'), doneView=document.getElementById('doneView');
   const open=()=>{ modal.classList.add('open'); document.body.style.overflow='hidden'; setTimeout(()=>form.nombre.focus(),300); };
@@ -449,6 +451,7 @@
       FNAME:partes[0],
       LNAME:partes.slice(1).join(' '),
       PHONE:form.telefono.value.trim(),
+      tags:MAILCHIMP_TAG,
       _subject:'Nueva confirmación - Invitación 15 años Alpha',
       _gotcha:form._gotcha.value
     };
