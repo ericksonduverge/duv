@@ -226,6 +226,8 @@
         <label>NOMBRE<input name="nombre" type="text" autocomplete="name" placeholder="Tu nombre completo" required><span class="err">Escribe tu nombre.</span></label>
         <label>CORREO<input name="correo" type="email" autocomplete="email" placeholder="tu@correo.com" required><span class="err">Escribe un correo válido.</span></label>
         <label>TELÉFONO<input name="telefono" type="tel" autocomplete="tel" placeholder="787 000 0000" required><span class="err">Escribe un teléfono válido.</span></label>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+        <p class="err" id="submitErr" hidden style="display:block">No pudimos enviar tu confirmación. Revisa tu conexión e inténtalo de nuevo.</p>
         <button class="submit" type="submit">Confirmar asistencia</button>
       </form>
     </div>
@@ -416,8 +418,8 @@
   });
 
   // Modal
-  // Para guardar las respuestas, pega aquí la URL de tu endpoint (Google Apps Script, Formspree, etc.)
-  const FORM_ENDPOINT = '';
+  // Las respuestas se envían a Formspree, que las pasa a la audiencia de Mailchimp
+  const FORM_ENDPOINT = 'https://formspree.io/f/xrpeqkwa';
   const modal=document.getElementById('modal'), form=document.getElementById('rsvp');
   const formView=document.getElementById('formView'), doneView=document.getElementById('doneView');
   const open=()=>{ modal.classList.add('open'); document.body.style.overflow='hidden'; setTimeout(()=>form.nombre.focus(),300); };
@@ -439,15 +441,27 @@
     let ok=true;
     Object.keys(rules).forEach(k=>{ const bad=!rules[k](form[k].value); form[k].classList.toggle('bad',bad); if(bad&&ok){ ok=false; form[k].focus(); } });
     if(!ok) return;
-    const data={ nombre:form.nombre.value.trim(), correo:form.correo.value.trim(), telefono:form.telefono.value.trim(),
-      fecha:new Date().toISOString() };
-    const btn=form.querySelector('.submit'); btn.disabled=true; btn.textContent='Enviando…';
+    // Nombres de campo = merge tags de Mailchimp (EMAIL, FNAME, LNAME, PHONE)
+    const partes=form.nombre.value.trim().split(/\s+/);
+    const data={
+      email:form.correo.value.trim(),
+      EMAIL:form.correo.value.trim(),
+      FNAME:partes[0],
+      LNAME:partes.slice(1).join(' '),
+      PHONE:form.telefono.value.trim(),
+      _subject:'Nueva confirmación - Invitación 15 años Alpha',
+      _gotcha:form._gotcha.value
+    };
+    const btn=form.querySelector('.submit'), err=document.getElementById('submitErr');
+    btn.disabled=true; btn.textContent='Enviando…'; err.hidden=true;
     try {
-      if(FORM_ENDPOINT) await fetch(FORM_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data)});
-      else { try{ const l=JSON.parse(localStorage.getItem('alpha15')||'[]'); l.push(data); localStorage.setItem('alpha15',JSON.stringify(l)); }catch(_){} }
-    } catch(_) {}
-    document.getElementById('doneMsg').textContent='Gracias, '+data.nombre.split(' ')[0]+'. Tu lugar está reservado.';
-    formView.hidden=true; doneView.hidden=false;
+      const r=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(data)});
+      if(!r.ok) throw new Error('http '+r.status);
+      document.getElementById('doneMsg').textContent='Gracias, '+data.FNAME+'. Tu lugar está reservado.';
+      formView.hidden=true; doneView.hidden=false;
+    } catch(_) {
+      err.hidden=false;
+    }
     btn.disabled=false; btn.textContent='Confirmar asistencia';
   });
 })();
