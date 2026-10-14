@@ -42,7 +42,7 @@
 
   /* Intro: 15 fotos */
   body.intro-on { overflow:hidden; height:100vh; }
-  body.intro-on main, body.intro-on .details-sec, body.intro-on .blobs { visibility:hidden; }
+  body.intro-on main, body.intro-on .details-sec, body.intro-on .iso-bg { visibility:hidden; }
   .reveal { animation-play-state:paused; }
   body.ready .reveal { animation-play-state:running; }
   #intro { position:fixed; inset:0; z-index:10; background:rgba(255,255,255,.72); overflow:hidden; touch-action:none; transition:opacity .9s ease, transform .9s ease; }
@@ -90,14 +90,17 @@
   .details-sec h2 span { color:var(--blue); }
   .glass-wrap { position:relative; width:100%; max-width:980px; }
   .page { position:relative; overflow-x:clip; }
-  .blobs { position:absolute; left:50%; top:60px; bottom:0; width:min(1100px,100%); transform:translateX(-50%); z-index:0; pointer-events:none; filter:blur(38px); }
-  .blob { position:absolute; width:clamp(240px,42vw,460px); aspect-ratio:1; background:radial-gradient(circle at 30% 30%,#7fb0ff,#2f7bff); opacity:.45; animation:morph 9s ease-in-out infinite, drift 14s ease-in-out infinite; }
-  .blob:nth-child(1){ left:0; top:6%; }
-  .blob:nth-child(2){ left:32%; top:30%; background:radial-gradient(circle at 30% 30%,#a8cdff,#3d8bff); animation-delay:-3s,-5s; }
-  .blob:nth-child(3){ right:0; top:10%; animation-delay:-6s,-9s; }
-  .blob:nth-child(4){ left:6%; top:58%; background:radial-gradient(circle at 30% 30%,#a8cdff,#2f7bff); animation-delay:-8s,-2s; }
-  @keyframes morph { 0%,100%{ border-radius:60% 40% 55% 45%/50% 60% 40% 50%; } 33%{ border-radius:40% 60% 45% 55%/60% 40% 60% 40%; } 66%{ border-radius:55% 45% 60% 40%/40% 55% 45% 60%; } }
-  @keyframes drift { 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(6%,8%) scale(1.15); } }
+  .page { position:relative; overflow:hidden; background:#fff; }
+  .iso-bg { position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+  .iso-bg svg { position:absolute; left:50%; top:48%; width:min(104vw,880px); height:auto; margin-left:calc(min(104vw,880px) / -2); margin-top:calc(min(104vw,880px) * -.46); transform-origin:50% 62%; overflow:visible; }
+  .iso-bg use { fill:none; stroke:#2f5bea; stroke-width:.7; stroke-linejoin:round; }
+  .iso-bg .iso-beat use { fill:#fff; stroke-width:1.3; }
+  .ring { opacity:0; animation:ripple 8s cubic-bezier(.2,.5,.3,1) infinite; }
+  @keyframes ripple { 0% { transform:scale(.45); opacity:0; } 12% { opacity:.55; } 100% { transform:scale(3.4); opacity:0; } }
+  .iso-bg .iso-beat { filter:drop-shadow(0 18px 40px rgba(47,91,234,.28)); }
+  .iso-beat { animation:beat 2.4s ease-in-out infinite; }
+  @keyframes beat { 0%,100% { transform:scale(1); } 12% { transform:scale(1.07); } 24% { transform:scale(1); } 36% { transform:scale(1.045); } 48% { transform:scale(1); } }
+  @media (prefers-reduced-motion:reduce){ .ring,.iso-beat{ animation:none; } .ring{ opacity:.25; } }
   .glass-grid { position:relative; z-index:1; display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
   .glass { position:relative; padding:32px 26px; min-height:220px; display:flex; flex-direction:column; gap:10px; color:var(--ink);
     background:linear-gradient(145deg,rgba(255,255,255,.62),rgba(255,255,255,.22));
@@ -179,7 +182,11 @@
 </section>
 
 <div class="page">
-<div class="blobs" aria-hidden="true"><div class="blob"></div><div class="blob"></div><div class="blob"></div><div class="blob"></div></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="isoSym" viewBox="1294 164 191 177"><path class="isop" d="M1318.0 337.1C1303.0 332.5 1294.0 315.3 1299.9 302.5C1303.7 294.1 1370.3 178.4 1372.8 175.6C1381.7 166.1 1398.9 166.8 1407.1 177.0C1410.7 181.6 1479.3 300.6 1480.8 304.9C1485.1 317.1 1477.2 332.0 1464.2 336.4C1457.7 338.7 1453.9 338.4 1442.0 335.0C1399.8 322.9 1382.5 322.9 1339.4 334.9C1328.6 338.0 1322.8 338.5 1318.0 337.1Z"/></symbol></defs></svg>
+<div class="iso-bg" aria-hidden="true">
+  <svg class="ring" viewBox="0 0 191 177" style="animation-delay:-0.0s"><use href="#isoSym"/></svg><svg class="ring" viewBox="0 0 191 177" style="animation-delay:-1.6s"><use href="#isoSym"/></svg><svg class="ring" viewBox="0 0 191 177" style="animation-delay:-3.2s"><use href="#isoSym"/></svg><svg class="ring" viewBox="0 0 191 177" style="animation-delay:-4.8s"><use href="#isoSym"/></svg><svg class="ring" viewBox="0 0 191 177" style="animation-delay:-6.4s"><use href="#isoSym"/></svg>
+  <svg class="iso-beat" viewBox="0 0 191 177"><use href="#isoSym"/></svg>
+</div>
 <main>
   <article class="card">
     <div class="lockup reveal" style="animation-delay:.05s">
