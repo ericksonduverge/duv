@@ -65,6 +65,15 @@
   .i-arc p { margin-top:12px; font-size:clamp(13px,2.6vw,16px); color:#555; }
   #enter { margin-top:clamp(20px,4vw,32px); opacity:0; transform:translateY(12px); pointer-events:none; border:0; cursor:pointer; background:var(--blue); color:#fff; font:500 16px 'Rubik',sans-serif; padding:14px 28px; border-radius:999px; box-shadow:0 8px 24px rgba(47,91,234,.35); transition:opacity .5s, transform .5s; }
   #enter.show { opacity:1; transform:none; pointer-events:auto; }
+  #hint { margin-top:18px; display:flex; align-items:center; justify-content:center; gap:10px; font-size:13px; font-weight:500; letter-spacing:.04em; color:#555; opacity:0; transition:opacity .5s; }
+  #hint.show { opacity:1; }
+  #hint .chev { font-size:26px; line-height:1; color:var(--blue); animation:nudgeL 1.3s ease-in-out infinite; }
+  #hint .chev:last-child { animation-name:nudgeR; }
+  @keyframes nudgeL { 0%,100% { transform:translateX(0); } 50% { transform:translateX(-6px); } }
+  @keyframes nudgeR { 0%,100% { transform:translateX(0); } 50% { transform:translateX(6px); } }
+  .swipe-ico { margin:14px auto 0; width:26px; height:42px; border:2px solid #9aa3b8; border-radius:14px; position:relative; }
+  .swipe-ico span { position:absolute; left:50%; top:8px; width:4px; height:8px; margin-left:-2px; border-radius:2px; background:var(--blue); animation:wheelDot 1.5s ease-in-out infinite; }
+  @keyframes wheelDot { 0% { transform:translateY(0); opacity:1; } 80% { transform:translateY(16px); opacity:0; } 100% { opacity:0; } }
   #skip { position:absolute; top:18px; right:18px; z-index:3; border:0; background:none; font:400 13px 'Rubik',sans-serif; color:#666; cursor:pointer; padding:8px; }
   #skip:hover { color:var(--blue); }
 
@@ -173,10 +182,12 @@
   <div class="i-center" id="iCenter">
     <h2>Queremos que<br>seas <b>parte de</b><br><b>estos 15 años</b></h2>
     <p>DESLIZA PARA CONOCER MÁS</p>
+    <div class="swipe-ico" aria-hidden="true"><span></span></div>
   </div>
   <div class="i-arc" id="iArc">
     <h3><b>15 años nos trajeron hasta aquí.</b><br>Lo mejor está por venir.</h3>
     <button id="enter" type="button">Ver invitación</button>
+    <div id="hint" aria-hidden="true"><span class="chev">&#8249;</span><span>Desliza para ver más fotos</span><span class="chev">&#8250;</span></div>
   </div>
 </section>
 
@@ -328,7 +339,7 @@
   const IMAGES = Array.from({length:TOTAL},(_,i)=>'fotos/'+String(i+1).padStart(2,'0')+'.jpg');
   const intro = document.getElementById('intro'), stage = document.getElementById('stage');
   const iCenter = document.getElementById('iCenter'), iArc = document.getElementById('iArc');
-  const enter = document.getElementById('enter');
+  const enter = document.getElementById('enter'), hint = document.getElementById('hint');
   const lerp = (a,b,t)=>a*(1-t)+b*t, clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 
   const cards = IMAGES.map((src,i)=>{
@@ -344,15 +355,17 @@
   let phase='scatter', scroll=0, morph=0, rot=0, mx=0, pmx=0, done=false;
   addEventListener('splashdone',()=>{
     setTimeout(()=>phase='line',300);
-    setTimeout(()=>phase='circle',2300);
+    setTimeout(()=>{ phase='circle'; lastInput=performance.now(); },2300);
   },{once:true});
 
-  function add(dy){ scroll = clamp(scroll+dy,0,MAX_SCROLL); }
-  intro.addEventListener('wheel',e=>{ e.preventDefault(); add(e.deltaY); },{passive:false});
-  let ty=0;
-  intro.addEventListener('touchstart',e=>{ ty=e.touches[0].clientY; },{passive:true});
-  intro.addEventListener('touchmove',e=>{ const y=e.touches[0].clientY; add((ty-y)*1.6); ty=y; },{passive:true});
-  addEventListener('keydown',e=>{ if(done) return; if(e.key==='ArrowDown'||e.key===' '||e.key==='PageDown') add(120); if(e.key==='ArrowUp') add(-120); });
+  let lastInput=performance.now();
+  function add(d){ scroll = clamp(scroll+d,0,MAX_SCROLL); lastInput=performance.now(); }
+  intro.addEventListener('wheel',e=>{ e.preventDefault(); add(e.deltaY+e.deltaX); },{passive:false});
+  let ty=0, tx=0;
+  intro.addEventListener('touchstart',e=>{ ty=e.touches[0].clientY; tx=e.touches[0].clientX; lastInput=performance.now(); },{passive:true});
+  // el arco se mueve en horizontal: aceptamos deslizar hacia los lados (o hacia arriba)
+  intro.addEventListener('touchmove',e=>{ const y=e.touches[0].clientY, x=e.touches[0].clientX; add(((ty-y)+(tx-x))*1.6); ty=y; tx=x; },{passive:true});
+  addEventListener('keydown',e=>{ if(done) return; if(['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)) add(120); if(['ArrowUp','ArrowLeft'].includes(e.key)) add(-120); });
   intro.addEventListener('mousemove',e=>{ mx=(e.clientX/innerWidth*2-1)*100; });
 
   function dismiss(){
@@ -384,7 +397,7 @@
         const minD=Math.min(W,H), R=Math.min(minD*.35,350), a=i/TOTAL*Math.PI*2;
         const circ={x:Math.cos(a)*R,y:Math.sin(a)*R,r:i/TOTAL*360+90};
         const base=Math.min(W,H*1.5), AR=base*(mobile?1.4:1.1);
-        const apex=H*(mobile?.35:.25), cy=apex+AR;
+        const apex=H*(mobile?.16:.25), cy=apex+AR;
         const spread=mobile?100:130, start=-90-spread/2, step=spread/(TOTAL-1);
         const vis=mobile?18:24, shift=(1-2*rot)*(spread/2-vis); // recorre de la primera a la última foto
         const ang=start+i*step+shift, rad=ang*Math.PI/180;
@@ -403,7 +416,13 @@
     const arcO = clamp((morph-.8)/.2,0,1);
     iArc.style.opacity = arcO.toFixed(2);
     iArc.style.transform = 'translate(-50%,'+((1-arcO)*20).toFixed(1)+'px)';
-    enter.classList.toggle('show', scroll>=MAX_SCROLL-40);
+    // si la persona no hace nada, la animación avanza sola para guiarla
+    if(phase==='circle' && performance.now()-lastInput>(scroll<MORPH_END?3500:2500) && scroll<MAX_SCROLL){
+      scroll=Math.min(MAX_SCROLL,scroll+(scroll<MORPH_END?3:1.6));
+    }
+    const arcReady = morph>.85;
+    enter.classList.toggle('show', arcReady);
+    hint.classList.toggle('show', arcReady && scroll<MAX_SCROLL-40);
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
