@@ -352,10 +352,10 @@
   });
   cards.forEach(c=>{ c.x=c.scatter.x; c.y=c.scatter.y; c.r=c.scatter.r; });
 
-  let phase='scatter', scroll=0, morph=0, rot=0, mx=0, pmx=0, done=false;
+  let phase='scatter', scroll=MORPH_END, morph=1, rot=0, mx=0, pmx=0, done=false;
   addEventListener('splashdone',()=>{
     setTimeout(()=>phase='line',300);
-    setTimeout(()=>{ phase='circle'; lastInput=performance.now(); },2300);
+    setTimeout(()=>{ phase='circle'; lastInput=performance.now(); },1700); // sin pantalla del círculo: de la línea pasa directo al arco
   },{once:true});
 
   let lastInput=performance.now();
@@ -417,7 +417,7 @@
     iArc.style.opacity = arcO.toFixed(2);
     iArc.style.transform = 'translate(-50%,'+((1-arcO)*20).toFixed(1)+'px)';
     // si la persona no hace nada, la animación avanza sola para guiarla
-    if(phase==='circle' && performance.now()-lastInput>(scroll<MORPH_END?3500:2500) && scroll<MAX_SCROLL){
+    if(phase==='circle' && performance.now()-lastInput>2500 && scroll<MAX_SCROLL){
       scroll=Math.min(MAX_SCROLL,scroll+(scroll<MORPH_END?3:1.6));
     }
     const arcReady = morph>.85;
