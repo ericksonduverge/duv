@@ -129,7 +129,7 @@
   .glass .time { font-size:clamp(30px,4vw,40px); font-weight:700; letter-spacing:-.02em; line-height:1.1; color:var(--blue); }
   .rsvp-btn { position:relative; z-index:1; border:0; cursor:pointer; background:var(--blue); color:#fff; font:500 17px 'Rubik',sans-serif; padding:16px 34px; border-radius:999px; box-shadow:0 10px 28px rgba(47,91,234,.4); transition:transform .25s, box-shadow .25s; }
   .rsvp-btn:hover { transform:translateY(-2px); box-shadow:0 14px 34px rgba(47,91,234,.5); }
-  @media (max-width:600px){ .i-center{ width:200px; } .i-center h2{ font-size:24px; line-height:1.15; } .i-center p{ font-size:9.5px; letter-spacing:.1em; margin-top:10px; white-space:nowrap; } }
+  @media (max-width:600px){ .i-center{ width:200px; } .i-center h2{ font-size:22px; line-height:1.15; } .i-center p{ font-size:9.5px; letter-spacing:.1em; margin-top:10px; white-space:nowrap; } }
   @media (max-width:820px){ .glass-grid{ grid-template-columns:1fr; } .glass{ min-height:0; } }
 
   /* Modal RSVP */
@@ -394,7 +394,7 @@
       else if(phase==='line'){
         const sp = mobile?46:70; t={x:i*sp-TOTAL*sp/2+sp/2,y:0,r:0,s:1,o:1};
       } else {
-        const minD=Math.min(W,H), R=Math.min(minD*.35,350), a=i/TOTAL*Math.PI*2;
+        const minD=Math.min(W,H), R=Math.min(minD*(mobile?.375:.35),350), a=i/TOTAL*Math.PI*2;
         const circ={x:Math.cos(a)*R,y:Math.sin(a)*R,r:i/TOTAL*360+90};
         const base=Math.min(W,H*1.5), AR=base*(mobile?1.4:1.1);
         const apex=H*(mobile?.16:.25), cy=apex+AR;
