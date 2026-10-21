@@ -289,6 +289,13 @@ section{position:relative}
 .mailline a{font-weight:700;color:#fff;text-underline-offset:3px}
 
 .form-card{position:relative;background:var(--paper);color:var(--ink);border-radius:calc(var(--radius) + 6px);padding:clamp(26px,3.6vw,44px);box-shadow:0 40px 80px -30px rgba(36,5,4,.7),0 0 0 1px rgba(255,255,255,.4) inset}
+.closed-card{text-align:center;padding:clamp(34px,5vw,56px) clamp(26px,4vw,52px)}
+.closed-card .closed-ico{width:72px;height:72px;margin:0 auto 22px;border-radius:50%;display:grid;place-items:center;background:var(--red-600);color:var(--yellow);box-shadow:0 0 0 10px rgba(237,33,36,.12)}
+.closed-card .closed-ico svg{width:32px;height:32px}
+.closed-card h3{margin-bottom:18px}
+.closed-card p{margin:0 auto 14px;max-width:44ch;font-size:clamp(16px,1.3vw,18px);line-height:1.6;color:var(--ink-2)}
+.closed-card p b{color:var(--red-800)}
+.closed-card .closed-thanks{margin:24px 0 0;font-family:var(--display);font-weight:700;font-size:clamp(20px,2vw,24px);color:var(--red-600)}
 .form-card h3{font-weight:700;font-size:clamp(24px,2.3vw,30px);color:var(--red-800);letter-spacing:-.02em}
 .form-card>p{margin-top:6px;color:var(--ink-2);font-size:15px}
 .fields{margin-top:26px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 16px}
@@ -636,7 +643,7 @@ fieldset.field{border:0;padding:0;margin:0}
         <li><a href="#encuentro">El encuentro</a></li>
         <li><a href="#enfoque">Enfoque</a></li>
         <li><a href="#expositores">Expositores</a></li>
-        <li><a class="btn" href="#confirmar">Confirmar asistencia</a></li>
+        <li><a class="btn" href="#confirmar">Detalles del evento</a></li>
       </ul>
     </nav>
   </div>
@@ -674,7 +681,7 @@ fieldset.field{border:0;padding:0;margin:0}
         <li><span class="ico"><svg aria-hidden="true"><use href="#i-pin"/></svg></span><div><b>Santo Domingo, República Dominicana</b><span>InterContinental Real Santo Domingo by&nbsp;IHG</span></div></li>
       </ul>
       <div class="hero-cta rise d5">
-        <a class="btn" href="#confirmar">Confirmar Asistencia <svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="btn" href="#confirmar">Detalles del evento <svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         <a class="btn btn-ghost" href="#expositores">Ver expositores</a>
       </div>
     </div>
@@ -863,9 +870,9 @@ fieldset.field{border:0;padding:0;margin:0}
   <div class="wrap">
     <div class="rsvp">
       <div class="rsvp-info reveal">
-        <span class="eyebrow"><svg aria-hidden="true"><use href="#i-ecg"/></svg>Confirmación de asistencia</span>
-        <h2 class="h2" id="confirmar-title">Confirme su <em>asistencia</em></h2>
-        <p class="lead">Esperamos contar con su valiosa presencia en esta <b>primera edición</b>.</p>
+        <span class="eyebrow"><svg aria-hidden="true"><use href="#i-ecg"/></svg>Inscripciones</span>
+        <h2 class="h2" id="confirmar-title">Nos vemos el <em>24 de octubre</em></h2>
+        <p class="lead">Le esperamos en esta <b>primera edición</b> del Fluter Summit 2026.</p>
 
         <div class="datelock" aria-label="Sábado 24 de octubre de 2026, 8:00 a.&nbsp;m.">
           <span class="side">Sábado</span>
@@ -884,74 +891,12 @@ fieldset.field{border:0;padding:0;margin:0}
         <p class="mailline"><svg aria-hidden="true"><use href="#i-mail"/></svg><span>Consultas: <a href="mailto:medical@fluter.com.do">medical@fluter.com.do</a></span></p>
       </div>
 
-      <div class="form-card reveal d1" id="form-card">
-        <h3>Formulario de confirmación</h3>
-        <p>Complete sus datos para confirmar su participación.</p>
-        <form id="rsvp-form" action="https://formspree.io/f/mwlpalrz" method="POST" novalidate>
-          <input type="hidden" name="_subject" value="Confirmación de asistencia · Fluter Summit 2026">
-          <div class="fields">
-            <div class="field">
-              <label for="f-nombre">Nombre <i aria-hidden="true">*</i></label>
-              <input id="f-nombre" name="FNAME" type="text" autocomplete="given-name" required placeholder="Su nombre">
-              <span class="err">Ingrese su nombre.</span>
-            </div>
-            <div class="field">
-              <label for="f-apellido">Apellido <i aria-hidden="true">*</i></label>
-              <input id="f-apellido" name="LNAME" type="text" autocomplete="family-name" required placeholder="Su apellido">
-              <span class="err">Ingrese su apellido.</span>
-            </div>
-            <div class="field">
-              <label for="f-email">Correo electrónico <i aria-hidden="true">*</i></label>
-              <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="nombre@correo.com">
-              <span class="err">Ingrese un correo electrónico válido.</span>
-            </div>
-            <div class="field">
-              <label for="f-tel">Teléfono <i aria-hidden="true">*</i></label>
-              <input id="f-tel" name="PHONE" type="tel" autocomplete="tel" inputmode="tel" required placeholder="(809) 000-0000" pattern="[0-9+()\-\s.]{7,}">
-              <span class="err">Ingrese un número de teléfono válido.</span>
-            </div>
-            <div class="field">
-              <label for="f-esp">Especialidad <i aria-hidden="true">*</i></label>
-              <input id="f-esp" name="ESPECIALIDAD" type="text" list="especialidades" required placeholder="Ej.: Cirugía vascular">
-              <datalist id="especialidades">
-                <option value="Angiología y Cirugía Vascular"></option>
-                <option value="Cirugía Cardiovascular"></option>
-                <option value="Cardiología"></option>
-                <option value="Cardiología Intervencionista"></option>
-                <option value="Neurorradiología Intervencionista"></option>
-                <option value="Radiología Intervencionista"></option>
-                <option value="Medicina Interna"></option>
-                <option value="Medicina Familiar"></option>
-                <option value="Residente"></option>
-              </datalist>
-              <span class="err">Indique su especialidad.</span>
-            </div>
-            <div class="field">
-              <label for="f-centro">Centro médico <i aria-hidden="true">*</i></label>
-              <input id="f-centro" name="CENTRO" type="text" autocomplete="organization" required placeholder="Centro donde labora">
-              <span class="err">Indique su centro médico.</span>
-            </div>
-            <fieldset class="field full" id="f-asist">
-              <legend>Confirmación de asistencia <i aria-hidden="true">*</i></legend>
-              <div class="seg">
-                <label><input type="radio" name="ASISTENCIA" value="Sí" required><span class="dot"></span>Sí, asistiré</label>
-                <label><input type="radio" name="ASISTENCIA" value="No"><span class="dot"></span>No podré asistir</label>
-              </div>
-              <span class="err">Seleccione una opción.</span>
-            </fieldset>
-          </div>
-          <div class="hp" aria-hidden="true"><label>No completar <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
-          <div class="form-foot">
-            <small>Su confirmación se enviará a <b>medical@fluter.com.do</b>.</small>
-            <button class="btn btn-red" type="submit" id="f-submit"><span class="spin" aria-hidden="true"></span><span class="lbl">Enviar</span><svg class="arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-          </div>
-          <div class="form-alert" id="form-alert" role="alert"></div>
-        </form>
-        <div class="form-done" id="form-done" tabindex="-1">
-          <div class="check"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <h3 id="done-title">¡Gracias por confirmar!</h3>
-          <p id="done-text">Hemos recibido su confirmación. Esperamos contar con su valiosa presencia en esta primera edición del Fluter Summit 2026.</p>
-        </div>
+      <div class="form-card closed-card reveal d1" id="form-card">
+        <div class="closed-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg></div>
+        <h3>Inscripciones cerradas</h3>
+        <p>Gracias por el gran interés en la primera edición del <b>Fluter Summit 2026</b>. Hemos cerrado el período de inscripción.</p>
+        <p>A quienes ya tienen su asistencia confirmada, ¡les esperamos el <b>sábado 24 de octubre</b>! Esperamos compartir con todos ustedes nuevas actividades académicas próximamente.</p>
+        <p class="closed-thanks">¡Muchas gracias!</p>
       </div>
     </div>
   </div>
@@ -975,7 +920,7 @@ fieldset.field{border:0;padding:0;margin:0}
           <li><a href="#encuentro">El encuentro</a></li>
           <li><a href="#enfoque">Enfoque científico</a></li>
           <li><a href="#expositores">Expositores</a></li>
-          <li><a href="#confirmar">Confirmar asistencia</a></li>
+          <li><a href="#confirmar">Inscripciones</a></li>
         </ul>
       </div>
       <div>
@@ -1065,6 +1010,7 @@ fieldset.field{border:0;padding:0;margin:0}
 
   /* Formulario */
   var form = document.getElementById('rsvp-form');
+  if (!form) return; // inscripciones cerradas
   var card = document.getElementById('form-card');
   var alertBox = document.getElementById('form-alert');
   var btn = document.getElementById('f-submit');
