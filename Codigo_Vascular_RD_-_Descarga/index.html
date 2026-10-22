@@ -66,6 +66,14 @@ p{margin:0}
 .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
 .file-meta{margin-top:16px;display:flex;align-items:center;gap:10px;font-size:14px;opacity:.85}
 .file-meta svg{width:18px;height:18px;color:var(--yellow)}
+.file-meta a{display:inline-flex;align-items:center;gap:8px;text-underline-offset:4px}
+.btn-big{margin-top:36px;min-height:84px;padding:0 44px 0 34px;gap:18px;font-size:clamp(18px,1.6vw,22px);letter-spacing:.05em;box-shadow:0 22px 44px -18px rgba(253,209,4,.75);animation:pulse 2.6s ease-out infinite}
+.btn-big svg{width:30px;height:30px}
+.btn-big span{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
+.btn-big small{font-family:var(--body);font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:none;opacity:.75;margin-top:3px}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(253,209,4,.55),0 22px 44px -18px rgba(253,209,4,.75)}70%,100%{box-shadow:0 0 0 18px rgba(253,209,4,0),0 22px 44px -18px rgba(253,209,4,.75)}}
+.hero .legal-mini{position:absolute;left:0;right:0;bottom:22px;text-align:center;font-size:13px;color:rgba(255,255,255,.7);padding:0 var(--gutter)}
+.hero .legal-mini a{color:var(--yellow)}
 .mock{position:relative;justify-self:center;width:min(100%,360px);perspective:1400px}
 .mock img{width:100%;height:auto;border-radius:10px;transform:rotateY(-14deg) rotateX(4deg) rotateZ(1.5deg);box-shadow:30px 40px 70px -20px rgba(20,2,2,.75),0 0 0 1px rgba(255,255,255,.12);transition:transform .8s var(--ease)}
 .mock:hover img{transform:rotateY(-4deg) rotateX(1deg)}
@@ -135,7 +143,11 @@ p{margin:0}
 }
 @media (max-width:900px){
   .hero-grid{grid-template-columns:1fr;padding-block:110px 70px}
-  .mock{width:min(70vw,300px);order:-1}
+  .mock{width:min(56vw,240px)}
+  .hero h1{font-size:clamp(46px,13vw,72px)}
+  .hero-sub{margin-top:16px}
+  .theme-tag{display:none}
+  .btn-big{margin-top:26px}
   .mock-badge{right:-10px}
   .hero-art img{object-position:28% 50%}
 }
@@ -144,7 +156,9 @@ p{margin:0}
   .codes,.steps,.semaforo{grid-template-columns:1fr}
   .code{grid-template-columns:86px minmax(0,1fr)}
   .code img{width:86px}
-  .hero-cta .btn{flex:1 1 100%}
+  .btn-big{width:100%;justify-content:center}
+  .hero{flex-direction:column}
+  .hero .legal-mini{position:static;padding-bottom:24px}
   .nav .btn span{display:none}
   .footer .wrap{flex-direction:column;align-items:flex-start}
 }
@@ -202,21 +216,7 @@ p{margin:0}
 <path transform="matrix(1,0,0,-1,136.3571,8.215118)" d="M0 0C-.24 .09-.421 .239-.541 .447-.661 .655-.721 .887-.721 1.142H.361C.326 .846 .386 .582 .541 .349 .696 .116 .954 0 1.315 0H3.111V-.969H-.646V0Z" class="lw"/>
 <path transform="matrix(1,0,0,-1,138.3519,5.585205)" d="M0 0C.198 .195 .297 .443 .297 .744 .297 1.044 .198 1.293 0 1.491-.198 1.689-.452 1.788-.763 1.788-1.073 1.788-1.327 1.689-1.525 1.491-1.723 1.293-1.822 1.044-1.822 .744-1.822 .443-1.723 .195-1.525 0-1.327-.195-1.073-.293-.763-.293-.452-.293-.198-.195 0 0M-2.641 1.788V2.757H1.116V1.788H.672C1.038 1.497 1.221 1.089 1.221 .563 1.221 .062 1.029-.367 .646-.725 .263-1.083-.207-1.262-.763-1.262-1.319-1.262-1.788-1.083-2.171-.725-2.555-.367-2.746 .062-2.746 .563-2.746 1.089-2.563 1.497-2.197 1.788Z" class="lw"/>
 <path transform="matrix(1,0,0,-1,-103,469.2)" d="M242.468 467.251H236.98401V468.22H242.468Z" class="lw"/></symbol>
-    <symbol id="logo-fluter" viewBox="0 0 83 21.8"><path transform="matrix(1,0,0,-1,29.939209,3.0264016)" d="M0 0C10.245 2.107 22.252 .635 23.141-4.003 24.027-8.637 16.396-14.143 6.157-16.243-1.302-17.783-8.15-17.095-11.653-14.816-8.318-16.239-2.8-16.575 3.178-15.446 12.309-13.726 19.126-9.218 18.339-5.413 17.616-1.909 8.212-.163 0-1.486Z" class="fr" fill-rule="evenodd"/>
-<path transform="matrix(1,0,0,-1,50.228914,14.176701)" d="M0 0C.115 .155 .178 .384 .187 .673V3.878C.178 4.17 .115 4.394 0 4.555H2.555V3.8H1.918V.748H2.555V0ZM2.555 4.555H3.761C3.938 4.555 4.109 4.523 4.273 4.449 4.43 4.382 4.566 4.293 4.67 4.18 4.843 4.001 4.929 3.693 4.929 3.249V1.301C4.929 .871 4.843 .551 4.67 .366 4.566 .259 4.43 .167 4.273 .1 4.109 .033 3.938 0 3.761 0H2.555V.748H2.745C2.926 .748 3.06 .787 3.107 .85 3.162 .921 3.195 1.061 3.195 1.284V3.268C3.195 3.465 3.177 3.597 3.134 3.664 3.065 3.76 2.937 3.8 2.745 3.8H2.555Z" class="fw"/>
-<path transform="matrix(1,0,0,-1,56.920289,9.621901)" d="M0 0H1.32V-.755H.954C.803-.755 .697-.791 .646-.862 .589-.935 .564-1.078 .564-1.287V-3.271C.564-3.469 .589-3.603 .623-3.671 .694-3.759 .829-3.806 1.014-3.806H1.32V-4.555H0C-.174-4.555-.339-4.522-.512-4.455-.678-4.388-.808-4.296-.912-4.189-1.078-4.003-1.166-3.693-1.166-3.253V-1.306C-1.166-.862-1.078-.554-.912-.375-.808-.262-.678-.173-.512-.106-.339-.032-.174 0 0 0M1.32 0H2.643C2.82 0 2.987-.032 3.16-.106 3.326-.173 3.459-.262 3.556-.375 3.73-.554 3.813-.862 3.816-1.306V-3.253C3.813-3.693 3.73-4.003 3.556-4.189 3.459-4.296 3.326-4.388 3.16-4.455 2.987-4.522 2.82-4.555 2.643-4.555H1.32V-3.806H1.633C1.819-3.806 1.94-3.768 1.994-3.705 2.047-3.634 2.077-3.493 2.077-3.271V-1.287C2.077-1.09 2.053-.958 2.025-.891 1.952-.795 1.821-.755 1.633-.755H1.32Z" class="fw"/>
-<path transform="matrix(1,0,0,-1,64.42331,12.220699)" d="M0 0 .892 2.599H3.229C3.112 2.448 3.052 2.223 3.043 1.922V-1.283C3.052-1.584 3.112-1.803 3.229-1.956H1.111C1.238-1.803 1.303-1.584 1.309-1.283V1.509L.123-1.956H-1.107L-2.275 1.509V-1.283C-2.266-1.584-2.193-1.803-2.079-1.956H-3.212C-3.097-1.801-3.03-1.572-3.022-1.283V1.922C-3.03 2.214-3.097 2.438-3.212 2.599H-.869Z" class="fw"/>
-<path transform="matrix(1,0,0,-1,70.17709,9.621901)" d="M0 0C-.125-.151-.191-.376-.203-.677V-3.271C-.203-3.469-.181-3.603-.135-3.67-.072-3.759 .06-3.806 .253-3.806H1.661C1.851-3.806 1.969-3.768 2.027-3.705 2.087-3.636 2.113-3.493 2.113-3.271V-.677C2.104-.376 2.04-.151 1.926 0H3.05C2.937-.151 2.874-.376 2.863-.677V-3.253C2.863-3.493 2.848-3.674 2.799-3.806 2.76-3.936 2.696-4.06 2.58-4.189 2.371-4.426 2.078-4.555 1.7-4.555H-.769C-1.144-4.555-1.441-4.426-1.647-4.189-1.757-4.069-1.834-3.936-1.869-3.808-1.908-3.674-1.938-3.493-1.938-3.253V-.677C-1.941-.385-2-.161-2.121 0Z" class="fw"/>
-<path transform="matrix(1,0,0,-1,77.72101,13.251301)" d="M0 0-.147-.925H-4.138C-4.018-.771-3.953-.541-3.943-.252V2.953C-3.953 3.245-4.018 3.468-4.138 3.629H-2.018C-2.141 3.479-2.203 3.253-2.203 2.953V-.177H-.585C-.333-.171-.145-.114 0 0" class="fw"/>
-<path transform="matrix(1,0,0,-1,82.08649,13.251301)" d="M0 0-.152-.925H-4.139C-4.018-.771-3.955-.541-3.946-.252V2.953C-3.955 3.245-4.018 3.468-4.139 3.629H-2.017C-2.147 3.479-2.207 3.253-2.219 2.953V-.177H-.585C-.342-.171-.144-.114 0 0" class="fw"/>
-<path transform="matrix(1,0,0,-1,26.497986,3.2419015)" d="M0 0H-1.207C-1.142-.085-1.104-.195-1.104-.321V-1.753C-1.104-1.891-1.142-1.992-1.207-2.066H-.155C-.22-1.992-.262-1.891-.262-1.753V-1.205H-.037L0-1.285V-.839H-.262V-.364H0ZM0-2.85H-1.048C-1.398-2.85-1.641-2.757-1.784-2.572-1.868-2.485-1.914-2.395-1.935-2.281-1.968-2.18-1.972-2.019-1.972-1.809V-.262C-1.972-.061-1.968 .099-1.935 .204-1.914 .315-1.868 .403-1.784 .496-1.641 .679-1.398 .769-1.048 .769H0V.445H-.756C-.922 .445-1.07 .431-1.161 .399-1.255 .37-1.333 .315-1.398 .24-1.445 .171-1.484 .099-1.491 .02-1.505-.055-1.519-.199-1.519-.408V-1.671C-1.519-1.885-1.505-2.019-1.491-2.094-1.484-2.18-1.445-2.249-1.398-2.316-1.333-2.395-1.255-2.444-1.161-2.474-1.07-2.505-.922-2.525-.756-2.525H0ZM0-1.285V-.839H.181C.238-.839 .287-.831 .305-.809 .32-.788 .334-.738 .334-.681V-.565C.334-.48 .32-.423 .309-.398 .297-.38 .229-.364 .154-.364H0V0H.583C.785 0 .929-.037 1.031-.111 1.123-.183 1.164-.286 1.164-.435V-.88C1.164-1.1 1.072-1.208 .893-1.208H.859L1.144-1.77C1.191-1.879 1.25-1.988 1.323-2.066H.351ZM1.986-.262V-1.809C1.986-2.019 1.968-2.18 1.944-2.281 1.911-2.395 1.858-2.485 1.793-2.572 1.652-2.757 1.396-2.85 1.057-2.85H0V-2.525H.761C.929-2.525 1.063-2.505 1.159-2.474 1.258-2.444 1.342-2.395 1.396-2.316 1.452-2.249 1.484-2.18 1.495-2.094 1.51-2.019 1.525-1.885 1.525-1.671V-.408C1.525-.199 1.51-.055 1.495 .02 1.484 .099 1.452 .171 1.396 .24 1.342 .315 1.258 .37 1.159 .399 1.063 .431 .929 .445 .761 .445H0V.769H1.057C1.396 .769 1.652 .679 1.793 .496 1.858 .403 1.911 .315 1.944 .204 1.968 .099 1.986-.061 1.986-.262" class="fr"/>
-<path transform="matrix(1,0,0,-1,3.9028016,8.275801)" d="M0 0V-1.702H2.356C2.675-1.702 2.975-1.647 3.267-1.521V-3.078C3.079-2.989 2.914-2.934 2.767-2.906 2.616-2.877 2.402-2.859 2.121-2.859H0V-4.851C.005-5.311 .111-5.667 .294-5.901H-2.989C-2.808-5.656-2.708-5.309-2.696-4.851V.122C-2.708 .578-2.808 .923-2.989 1.169H3.204L3.426-.167C3.227-.085 3.064-.039 2.929-.028 2.801-.01 2.477-.004 1.949 0Z" class="fw"/>
-<path transform="matrix(1,0,0,-1,14.141205,12.7512)" d="M0 0-.232-1.426H-6.427C-6.242-1.181-6.146-.834-6.134-.382V4.597C-6.146 5.053-6.242 5.398-6.427 5.644H-3.134C-3.326 5.406-3.423 5.061-3.441 4.597V-.258H-.901C-.521-.254-.223-.158 0 0" class="fw"/>
-<path transform="matrix(1,0,0,-1,17.824402,7.106701)" d="M0 0C-.187-.238-.277-.584-.302-1.048V-5.079C-.302-5.382-.267-5.589-.209-5.695-.102-5.839 .101-5.907 .398-5.902H2.578C2.879-5.902 3.062-5.856 3.156-5.746 3.25-5.644 3.288-5.424 3.288-5.079V-1.048C3.274-.584 3.18-.238 2.993 0H4.741C4.567-.238 4.469-.584 4.453-1.048V-5.043C4.453-5.414 4.424-5.701 4.357-5.902 4.292-6.116 4.181-6.307 4.024-6.498 3.69-6.871 3.232-7.066 2.645-7.07H-1.181C-1.776-7.066-2.224-6.871-2.557-6.498-2.722-6.313-2.841-6.118-2.899-5.907-2.962-5.706-2.992-5.414-2.992-5.043V-1.048C-3.007-.591-3.099-.246-3.289 0Z" class="fw"/>
-<path transform="matrix(1,0,0,-1,24.679993,14.1768)" d="M0 0C.178 .234 .275 .59 .285 1.043V5.901H-.969C-1.224 5.901-1.401 5.894-1.521 5.866-1.648 5.835-1.766 5.781-1.906 5.7L-1.694 7.07H4.957L5.173 5.7C5.037 5.781 4.911 5.835 4.788 5.866 4.668 5.894 4.483 5.901 4.23 5.901H2.977V1.043C2.993 .59 3.085 .234 3.272 0Z" class="fw"/>
-<path transform="matrix(1,0,0,-1,33.195589,8.275801)" d="M0 0V-1.716H2.165C2.6-1.716 2.927-1.655 3.171-1.553V-3.065C3.037-2.952 2.762-2.879 2.366-2.877H0V-4.733H2.613C2.864-4.733 3.199-4.654 3.629-4.494L3.394-5.901H-2.998C-2.809-5.656-2.713-5.309-2.701-4.857V.122C-2.713 .578-2.809 .923-2.998 1.169H3.253L3.454-.161C3.234-.085 3.075-.039 2.953-.028 2.833-.007 2.579 0 2.198 0Z" class="fw"/>
-<path transform="matrix(1,0,0,-1,41.09561,11.1614)" d="M0 0H-.826V-1.972C-.814-2.425-.718-2.777-.524-3.015H-3.826C-3.627-2.771-3.537-2.423-3.52-1.972V3.007C-3.537 3.463-3.627 3.808-3.826 4.055H.203V2.886H-.826V1.163H.203V-.478ZM.203 4.055H2.008C2.418 4.055 2.719 4.028 2.917 3.981 3.127 3.934 3.304 3.831 3.447 3.709 3.736 3.463 3.884 3.083 3.884 2.589V1.063C3.884 .748 3.856 .512 3.777 .362 3.621 .117 3.374-.006 3.038-.006 2.994-.006 2.94-.006 2.861 0L3.825-2.047C3.993-2.423 4.173-2.742 4.374-3.015H1.251L.203-.478V1.163H.682C.905 1.163 1.057 1.202 1.135 1.277 1.196 1.355 1.234 1.52 1.234 1.784V2.127C1.234 2.479 1.196 2.693 1.141 2.776 1.069 2.851 .892 2.886 .6 2.886H.203Z" class="fw"/></symbol>
-    <symbol id="i-down" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></g></symbol>
+        <symbol id="i-down" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></g></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></g></symbol>
     <symbol id="i-file" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g></symbol>
     <symbol id="i-ecg" viewBox="0 0 80 36"><path d="M2 20h22l7.5-16.5L40 33l5.6-13H78"/></symbol>
@@ -226,7 +226,6 @@ p{margin:0}
 <header class="nav" id="nav">
   <div class="wrap">
     <a class="nav-logo" href="#inicio" aria-label="Fluter Summit 2026"><svg viewBox="0 0 142.1 116.400028" aria-hidden="true"><use href="#logo-summit"/></svg></a>
-    <a class="btn" href="Codigo-Vascular-RD.pdf" download="Codigo-Vascular-RD.pdf" data-dl><svg aria-hidden="true"><use href="#i-down"/></svg><span>Descargar PDF</span></a>
   </div>
 </header>
 
@@ -242,93 +241,16 @@ p{margin:0}
       <h1 id="titulo">Código Vascular <span>RD</span></h1>
       <p class="hero-sub"><strong>Herramienta multidisciplinaria</strong> para decisiones oportunas y atención integral del paciente vascular.</p>
       <div class="theme-tag"><b>Salud Vascular y Terapia Integral:</b><span>de la prevención al manejo quirúrgico especializado</span></div>
-      <div class="hero-cta">
-        <a class="btn" href="Codigo-Vascular-RD.pdf" download="Codigo-Vascular-RD.pdf" data-dl><svg aria-hidden="true"><use href="#i-down"/></svg>Descargar PDF</a>
-        <a class="btn btn-ghost" href="Codigo-Vascular-RD.pdf" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-eye"/></svg>Ver en línea</a>
-      </div>
-      <p class="file-meta"><svg aria-hidden="true"><use href="#i-file"/></svg>PDF · 8 páginas · 7,3 MB</p>
+      <a class="btn btn-big" href="Codigo-Vascular-RD.pdf" download="Codigo-Vascular-RD.pdf"><svg aria-hidden="true"><use href="#i-down"/></svg><span>Descargar PDF<small>8 páginas · 7,3 MB</small></span></a>
+      <p class="file-meta"><a href="Codigo-Vascular-RD.pdf" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-eye"/></svg>o véalo en línea</a></p>
     </div>
     <div class="mock">
       <img src="img/portada.webp" width="760" height="1558" alt="Portada de la guía Código Vascular RD">
     </div>
   </div>
-</section>
-
-<section class="section" id="codigos" aria-labelledby="codigos-t">
-  <div class="wrap">
-    <div class="head">
-      <div class="reveal">
-        <span class="eyebrow"><svg aria-hidden="true"><use href="#i-ecg"/></svg>Contenido</span>
-        <h2 class="h2" id="codigos-t">Seis códigos <em>clínicos</em></h2>
-      </div>
-      <p class="reveal d1">Cada página clínica tiene una franja de color en el borde exterior para identificar rápidamente el código correspondiente.</p>
-    </div>
-    <div class="codes">
-      <article class="code reveal" style="--c:#452e84"><img src="img/pagina-cerebrovascular.webp" alt="" loading="lazy" width="420" height="861"><div><small>Código</small><h3>Cerebrovascular</h3><p>Evento vascular cerebral agudo (EVC agudo).</p></div></article>
-      <article class="code reveal d1" style="--c:#f47d33"><img src="img/pagina-extremidad.webp" alt="" loading="lazy" width="420" height="861"><div><small>Código</small><h3>Extremidad</h3><p>Isquemia aguda de las extremidades.</p></div></article>
-      <article class="code reveal d2" style="--c:#066839"><img src="img/pagina-eap.webp" alt="" loading="lazy" width="420" height="861"><div><small>Código</small><h3>EAP</h3><p>Enfermedad arterial periférica: detección, clasificación y referencia oportuna.</p></div></article>
-      <article class="code reveal" style="--c:#423587"><img src="img/pagina-tromboembolismo.webp" alt="" loading="lazy" width="420" height="861"><div><small>Código</small><h3>Tromboembolismo venoso</h3><p>Trombosis venosa profunda (TVP) y embolia pulmonar.</p></div></article>
-      <article class="code reveal d1" style="--c:#1496ac"><img src="img/pagina-aortico.webp" alt="" loading="lazy" width="420" height="861"><div><small>Código</small><h3>Aórtico</h3><p>Síndrome aórtico agudo: de la sospecha al manejo oportuno.</p></div></article>
-      <article class="code reveal d2" style="--c:#a3155c"><img src="img/pagina-cabeza-cuello.webp" alt="" loading="lazy" width="420" height="861"><div><small>Código</small><h3>Cabeza y cuello</h3><p>Urgencias vasculares de cabeza y cuello.</p></div></article>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="uso" aria-labelledby="uso-t">
-  <div class="wrap">
-    <div class="head">
-      <div class="reveal">
-        <span class="eyebrow"><svg aria-hidden="true"><use href="#i-ecg"/></svg>Cómo utilizarla</span>
-        <h2 class="h2" id="uso-t">Cinco pasos para una atención <em>oportuna y segura</em></h2>
-      </div>
-      <p class="reveal d1">Guía clínica de consulta rápida para decisiones oportunas en urgencias vasculares.</p>
-    </div>
-    <ol class="steps">
-      <li class="step reveal"><h3>Reconocer</h3><p>Identifique signos y síntomas clave de una urgencia vascular.</p></li>
-      <li class="step reveal d1"><h3>Clasificar el riesgo</h3><p>Determine la prioridad según la condición clínica del paciente.</p></li>
-      <li class="step reveal d2"><h3>Actuar</h3><p>Inicie las medidas iniciales y el tratamiento recomendado.</p></li>
-      <li class="step reveal d3"><h3>Referir</h3><p>Active la ruta vascular y transfiera al centro adecuado sin demora.</p></li>
-      <li class="step reveal d4"><h3>Dar seguimiento</h3><p>Confirme la evolución y la continuidad de la atención.</p></li>
-    </ol>
-
-    <div class="semaforo" aria-label="Niveles de prioridad clínica">
-      <div class="sem reveal" style="--c:#e0262b"><b>Referimiento inmediato</b><p>Condición crítica. Riesgo vital o de pérdida de función.</p><span>Accione ya</span></div>
-      <div class="sem reveal d1" style="--c:#f28c1b"><b>Evaluación el mismo día</b><p>Condición urgente. Requiere valoración en horas.</p><span>No retrasar</span></div>
-      <div class="sem y reveal d2" style="--c:#f5c400"><b>Consulta prioritaria</b><p>Condición estable con riesgo de deterioro.</p><span>Agenda pronto</span></div>
-      <div class="sem reveal d3" style="--c:#2e9e4f"><b>Seguimiento ambulatorio</b><p>Condición estable. Manejo ambulatorio según protocolo.</p><span>Controlar</span></div>
-    </div>
-    <p class="sem-note reveal">Los colores del semáforo indican la prioridad de atención, no el código.</p>
-  </div>
-</section>
-
-<section class="cta" aria-labelledby="cta-t">
-  <img class="bottom-art" src="img/fondo-inferior.webp" alt="" aria-hidden="true" loading="lazy">
-  <div class="wrap">
-    <h2 id="cta-t">Descargue <span>Código Vascular RD</span></h2>
-    <p>Téngala a mano en su teléfono o imprímala para consulta rápida.</p>
-    <div class="hero-cta">
-      <a class="btn" href="Codigo-Vascular-RD.pdf" download="Codigo-Vascular-RD.pdf" data-dl><svg aria-hidden="true"><use href="#i-down"/></svg>Descargar PDF</a>
-      <a class="btn btn-ghost" href="Codigo-Vascular-RD.pdf" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-eye"/></svg>Ver en línea</a>
-    </div>
-    <p class="file-meta"><svg aria-hidden="true"><use href="#i-file"/></svg>PDF · 8 páginas · 7,3 MB</p>
-  </div>
+  <p class="legal-mini">© 2026 Fluter Domull · Fluter Summit 2026 · Consultas: <a href="mailto:medical@fluter.com.do">medical@fluter.com.do</a></p>
 </section>
 </main>
-
-<footer class="footer">
-  <div class="wrap">
-    <div class="footer-logos">
-      <svg viewBox="0 0 142.1 116.400028" role="img" aria-label="Fluter Summit 2026"><use href="#logo-summit"/></svg>
-      <span class="div" aria-hidden="true"></span>
-      <svg viewBox="0 0 83 21.8" role="img" aria-label="Fluter Domull"><use href="#logo-fluter"/></svg>
-    </div>
-    <p class="motto">Gente Sana, <span>Gente Feliz.</span></p>
-    <div class="legal">
-      <span>© 2026 Fluter Domull. Todos los derechos reservados.</span>
-      <span>Consultas: <a href="mailto:medical@fluter.com.do">medical@fluter.com.do</a></span>
-    </div>
-  </div>
-</footer>
 
 <script>
 (function(){
