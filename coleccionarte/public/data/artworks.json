@@ -1,0 +1,116 @@
+{
+  "gallery": {
+    "name": "Coleccionarte",
+    "tagline": "Arte para vivir",
+    "contact": {
+      "email": "ventas@coleccionarte.com",
+      "whatsapp": "+17870000000"
+    }
+  },
+  "artworks": [
+    {
+      "id": "01",
+      "slug": "concierto-en-la-ciudad",
+      "title": "Concierto en la Ciudad",
+      "artist": "María Ordóñez",
+      "year": 2023,
+      "widthCm": 180,
+      "heightCm": 120,
+      "technique": "Óleo sobre lienzo",
+      "description": "Un homenaje a la música y a la vida urbana, donde el ritmo de la ciudad se funde con la emoción del arte.",
+      "image": "/art/art01.jpg",
+      "frame": "oak"
+    },
+    {
+      "id": "02",
+      "slug": "mirada-dividida",
+      "title": "Mirada Dividida",
+      "artist": "Andrés Valcárcel",
+      "year": 2022,
+      "widthCm": 90,
+      "heightCm": 120,
+      "technique": "Acrílico sobre lienzo",
+      "description": "Un retrato fragmentado en planos de color que explora las múltiples caras de una misma persona.",
+      "image": "/art/art02.jpg",
+      "frame": "oak"
+    },
+    {
+      "id": "03",
+      "slug": "ensueno-al-atardecer",
+      "title": "Ensueño al Atardecer",
+      "artist": "Colección Privada",
+      "year": 1889,
+      "widthCm": 100,
+      "heightCm": 125,
+      "technique": "Óleo sobre lienzo",
+      "description": "Obra de inspiración académica del siglo XIX, con veladuras delicadas y una luz dorada que envuelve la escena.",
+      "image": "/art/art03.jpg",
+      "frame": "gold"
+    },
+    {
+      "id": "04",
+      "slug": "dos-perfiles",
+      "title": "Dos Perfiles",
+      "artist": "Lucía Ferrer",
+      "year": 2024,
+      "widthCm": 75,
+      "heightCm": 100,
+      "technique": "Técnica mixta sobre lienzo",
+      "description": "Una sola línea continua dibuja dos rostros que se encuentran. Minimalismo íntimo sobre fondo carbón.",
+      "image": "/art/art04.jpg",
+      "frame": "black"
+    },
+    {
+      "id": "05",
+      "slug": "marea-de-fuego",
+      "title": "Marea de Fuego",
+      "artist": "Rafael Montes",
+      "year": 2021,
+      "widthCm": 160,
+      "heightCm": 120,
+      "technique": "Óleo con espátula sobre lienzo",
+      "description": "Trazos enérgicos de espátula en naranja, carmín y cobalto que capturan el movimiento del mar en llamas.",
+      "image": "/art/art05.jpg",
+      "frame": "black"
+    },
+    {
+      "id": "06",
+      "slug": "silencio-blanco",
+      "title": "Silencio Blanco",
+      "artist": "Inés Albarrán",
+      "year": 2024,
+      "widthCm": 100,
+      "heightCm": 125,
+      "technique": "Relieve de yeso sobre lienzo",
+      "description": "Relieve monocromo de líneas orgánicas talladas a mano; una pieza serena que cambia con cada luz del día.",
+      "image": "/art/art06.jpg",
+      "frame": "oak"
+    },
+    {
+      "id": "07",
+      "slug": "costa-dorada",
+      "title": "Costa Dorada",
+      "artist": "Gabriel Rosado",
+      "year": 2023,
+      "widthCm": 200,
+      "heightCm": 112,
+      "technique": "Óleo sobre lienzo",
+      "description": "El Caribe a la hora dorada, abstraído en campos de color translúcido: turquesa, coral y siluetas de palmas.",
+      "image": "/art/art07.jpg",
+      "frame": "oak"
+    },
+    {
+      "id": "08",
+      "slug": "diosa-pop",
+      "title": "Diosa Pop",
+      "artist": "Valentina Cruz",
+      "year": 2024,
+      "widthCm": 120,
+      "heightCm": 120,
+      "technique": "Acrílico y pan de oro sobre lienzo",
+      "description": "Un busto clásico reinterpretado con humor y lujo: gafas rosadas, pan de oro y color plano.",
+      "image": "/art/art08.jpg",
+      "frame": "gold"
+    }
+  ]
+}
