@@ -36,7 +36,7 @@ async function init() {
   renderer.setSize(window.innerWidth, window.innerHeight, false);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.0;
+  renderer.toneMappingExposure = 0.86;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.shadowMap.autoUpdate = false;
@@ -86,8 +86,8 @@ async function init() {
     }
     return {
       pos: new THREE.Vector3(0.1, 1.6, d.zf - 0.4),
-      tgt: new THREE.Vector3(0.12, 1.98, d.zb),
-      fov: camera.aspect < 1.25 ? 72 : camera.aspect < 1.55 ? 65 : 59,
+      tgt: new THREE.Vector3(0.12, 1.82, d.zb),
+      fov: camera.aspect < 1.25 ? 70 : camera.aspect < 1.55 ? 63 : 57,
     };
   };
 

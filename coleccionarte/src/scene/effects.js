@@ -161,15 +161,16 @@ export function buildDust(scene, room, d, count, pixelRatio) {
 }
 
 const FinalShader = {
-  uniforms: { tDiffuse: { value: null }, uTime: { value: 0 }, uVignette: { value: 0.38 }, uGrain: { value: 0.022 } },
+  uniforms: { tDiffuse: { value: null }, uTime: { value: 0 }, uVignette: { value: 0.46 }, uGrain: { value: 0.022 } },
   vertexShader: /* glsl */ `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
   fragmentShader: /* glsl */ `uniform sampler2D tDiffuse; uniform float uTime; uniform float uVignette; uniform float uGrain; varying vec2 vUv;
     float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
     void main(){
       vec3 c = texture2D(tDiffuse, vUv).rgb;
       // gentle filmic contrast + warm grade
-      c = mix(c, c * c * (3.0 - 2.0 * c), 0.22);
-      c *= vec3(1.035, 1.0, 0.95);
+      c = mix(c, c * c * (3.0 - 2.0 * c), 0.34);
+      c = pow(c, vec3(1.06));
+      c *= vec3(1.03, 0.99, 0.93);
       float l = dot(c, vec3(0.299, 0.587, 0.114));
       c = mix(vec3(l), c, 1.06);
       vec2 q = vUv - 0.5;
