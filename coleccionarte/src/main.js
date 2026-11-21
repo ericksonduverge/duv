@@ -45,7 +45,7 @@ async function init() {
   scene.background = new THREE.Color(0xd9e8f6);
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.32;
+  scene.environmentIntensity = 0.3;
   pmrem.dispose();
 
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 80);
@@ -58,7 +58,7 @@ async function init() {
   const assets = await loadMaterials();
   const layout = computeLayout(artworks);
   const d = roomDims(layout.L);
-  d.fz = d.zf - 5.3; // centre of the seating group, in front of the visitor
+  d.fz = d.zf - 4.55; // centre of the seating group, in front of the visitor
   const room = buildRoom(scene, assets, d, quality);
   buildFurniture(scene, assets, d, room);
   const { items, hit } = await buildArtworks(scene, assets, d, artworks, layout.slots);
@@ -77,42 +77,94 @@ async function init() {
 
   const overviewPose = () => {
     const portrait = camera.aspect < 0.9;
+    if (portrait) {
+      // phones: stand to one side and look diagonally down the hall so the hung wall reads large
+      const pos = new THREE.Vector3(d.hw * 0.42, 1.6, d.zf - 0.4);
+      const yaw = 0.3;
+      const tgt = pos.clone().add(new THREE.Vector3(-Math.sin(yaw) * 10, 0.7, -Math.cos(yaw) * 10));
+      return { pos, tgt, fov: 78 };
+    }
     return {
-      pos: new THREE.Vector3(0.12, 1.62, d.zf - 0.5),
-      tgt: new THREE.Vector3(0.05, portrait ? 1.7 : 1.92, d.zb),
-      fov: portrait ? 84 : camera.aspect < 1.4 ? 70 : 63,
+      pos: new THREE.Vector3(0.1, 1.6, d.zf - 0.4),
+      tgt: new THREE.Vector3(0.12, 1.98, d.zb),
+      fov: camera.aspect < 1.25 ? 72 : camera.aspect < 1.55 ? 65 : 59,
     };
   };
+
+  const probe = new THREE.PerspectiveCamera();
+  const corners = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
+  const up = new THREE.Vector3(0, 1, 0);
 
   const focusPose = (i) => {
     const it = items[i];
     const vw = window.innerWidth, vh = window.innerHeight;
     const sheet = isSheet();
-    const fov = sheet ? 58 : 44;
     const area = ui.freeArea();
     const fw = Math.max(0.3, (area.x1 - area.x0) / vw), fh = Math.max(0.25, (area.y1 - area.y0) / vh);
     const cx = ((area.x0 + area.x1) / vw) - 1; // NDC centre of free area
     const cy = 1 - ((area.y0 + area.y1) / vh);
-    const tanV = Math.tan(THREE.MathUtils.degToRad(fov / 2)), tanH = tanV * (vw / vh);
-    const margin = sheet ? 1.1 : 1.16;
-    let dist = Math.max((it.w * margin) / (2 * tanH * fw), (it.h * margin) / (2 * tanV * fh), 1.15);
-    dist = Math.min(dist, d.W - 0.7);
-    const right = new THREE.Vector3().crossVectors(it.normal.clone().negate(), new THREE.Vector3(0, 1, 0)).normalize();
-    const angle = sheet ? 0 : 0.22; // slight three-quarter view on desktop
-    const k = 1 / (1 - angle);
-    const sx = -cx * dist * tanH * k, sy = -cy * dist * tanV;
-    const pos = it.center.clone().addScaledVector(it.normal, dist).addScaledVector(right, sx);
-    pos.y += sy;
-    pos.y = THREE.MathUtils.clamp(pos.y, 0.9, 2.6);
-    pos.z = THREE.MathUtils.clamp(pos.z, d.zb + 0.5, d.zf - 0.4);
-    const perp = pos.clone().addScaledVector(it.normal, -dist);
-    const tgt = perp.lerp(it.center, angle);
-    tgt.y = pos.y; // keep verticals straight
-    if (sheet) {
-      // bottom sheet: stay at eye level and tilt down so the work sits in the free upper area
-      pos.y = THREE.MathUtils.clamp(it.center.y - 0.1, 1.2, 2.2);
-      tgt.y = pos.y - dist * cy * tanV + (it.center.y - pos.y);
+    const right = new THREE.Vector3().crossVectors(it.normal.clone().negate(), up).normalize();
+
+    if (!sheet) {
+      // three-quarter view: the camera is yawed so the work recedes towards the panel
+      // and the room stays visible behind it. Solve position so the work fills the free area.
+      const fov = 50, yaw = 0.36, margin = 1.05;
+      const tanV = Math.tan(THREE.MathUtils.degToRad(fov / 2)), tanH = tanV * (vw / vh);
+      const dir = it.normal.clone().negate().multiplyScalar(Math.cos(yaw)).addScaledVector(right, Math.sin(yaw));
+      probe.fov = fov; probe.aspect = vw / vh; probe.near = 0.05; probe.far = 100;
+      probe.updateProjectionMatrix();
+      const pos = new THREE.Vector3();
+      const box = { x0: 0, x1: 0, y0: 0, y1: 0 };
+      const measure = () => {
+        probe.position.copy(pos);
+        probe.lookAt(pos.x + dir.x, pos.y, pos.z + dir.z);
+        probe.updateMatrixWorld(true);
+        box.x0 = box.y0 = Infinity; box.x1 = box.y1 = -Infinity;
+        let k = 0;
+        for (const sx of [-1, 1]) for (const sy of [-1, 1]) {
+          const c = corners[k++].copy(it.center).addScaledVector(right, (sx * it.w) / 2);
+          c.y += (sy * it.h) / 2;
+          c.project(probe);
+          box.x0 = Math.min(box.x0, c.x); box.x1 = Math.max(box.x1, c.x);
+          box.y0 = Math.min(box.y0, c.y); box.y1 = Math.max(box.y1, c.y);
+        }
+      };
+      const place = (dn) => {
+        let s = -Math.tan(yaw) * dn, y = it.center.y;
+        for (let n = 0; n < 6; n++) {
+          pos.copy(it.center).addScaledVector(it.normal, dn).addScaledVector(right, s);
+          pos.y = y;
+          measure();
+          s += ((box.x0 + box.x1) / 2 - cx) * dn * tanH * 0.9;
+          y += ((box.y0 + box.y1) / 2 - cy) * dn * tanV * 0.9;
+        }
+        pos.copy(it.center).addScaledVector(it.normal, dn).addScaledVector(right, s);
+        pos.y = y;
+        measure();
+        return (box.x1 - box.x0) * margin <= 2 * fw && (box.y1 - box.y0) * margin <= 2 * fh;
+      };
+      let lo = 0.75, hi = d.W - 0.55;
+      if (place(hi)) {
+        for (let n = 0; n < 16; n++) { const mid = (lo + hi) / 2; if (place(mid)) hi = mid; else lo = mid; }
+      }
+      place(hi);
+      pos.y = THREE.MathUtils.clamp(pos.y, 0.7, d.H - 0.5);
+      pos.z = THREE.MathUtils.clamp(pos.z, d.zb + 0.45, d.zf - 0.35);
+      const tgt = pos.clone().addScaledVector(dir, 4);
+      return { pos, tgt, fov };
     }
+
+    // bottom sheet: frontal view, tilted so the work sits in the free upper area
+    const fov = 58;
+    const tanV = Math.tan(THREE.MathUtils.degToRad(fov / 2)), tanH = tanV * (vw / vh);
+    const margin = 1.07;
+    let dist = Math.max((it.w * margin) / (2 * tanH * fw), (it.h * margin) / (2 * tanV * fh), 1.0);
+    dist = Math.min(dist, d.W - 0.55);
+    const pos = it.center.clone().addScaledVector(it.normal, dist).addScaledVector(right, -cx * dist * tanH);
+    pos.z = THREE.MathUtils.clamp(pos.z, d.zb + 0.5, d.zf - 0.4);
+    const tgt = pos.clone().addScaledVector(it.normal, -dist);
+    pos.y = THREE.MathUtils.clamp(it.center.y - 0.1, 1.2, 2.2);
+    tgt.y = pos.y - dist * cy * tanV + (it.center.y - pos.y);
     return { pos, tgt, fov };
   };
 
@@ -138,7 +190,7 @@ async function init() {
     history.replaceState(null, '', `#/obra/${a.id ?? i + 1}${a.slug ? '-' + a.slug : ''}`);
   }
   function close(instant = false) {
-    if (focused < 0 && flyT >= 1) return;
+    if (focused < 0 && flyT >= 1 && !instant) return;
     focused = -1;
     ui.hideDetail();
     instant ? snap(overviewPose()) : fly(overviewPose());
@@ -148,8 +200,8 @@ async function init() {
     if (!N) return;
     focus(lastIndex < 0 ? (dir > 0 ? 0 : N - 1) : lastIndex + dir);
   }
-  api.focus = (i) => focus(i);
-  api.close = () => close();
+  api.focus = (i, opts) => focus(i, !!(opts && opts.instant));
+  api.close = (opts) => close(!!(opts && opts.instant));
 
   snap(overviewPose());
 

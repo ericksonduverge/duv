@@ -81,7 +81,7 @@ export function buildShafts(scene, room, d) {
   geo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
   const mat = new THREE.ShaderMaterial({
     transparent: true, depthWrite: false, side: THREE.DoubleSide, blending: THREE.AdditiveBlending,
-    uniforms: { uTime: { value: 0 }, uColor: { value: new THREE.Color(1.0, 0.9, 0.72) }, uOpacity: { value: 0.075 } },
+    uniforms: { uTime: { value: 0 }, uColor: { value: new THREE.Color(1.0, 0.9, 0.72) }, uOpacity: { value: 0.085 } },
     vertexShader: /* glsl */ `varying vec2 vUv; varying vec3 vW;
       void main(){ vUv = uv; vec4 w = modelMatrix * vec4(position,1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }`,
     fragmentShader: /* glsl */ `uniform float uTime; uniform vec3 uColor; uniform float uOpacity; varying vec2 vUv; varying vec3 vW;
@@ -161,7 +161,7 @@ export function buildDust(scene, room, d, count, pixelRatio) {
 }
 
 const FinalShader = {
-  uniforms: { tDiffuse: { value: null }, uTime: { value: 0 }, uVignette: { value: 0.3 }, uGrain: { value: 0.022 } },
+  uniforms: { tDiffuse: { value: null }, uTime: { value: 0 }, uVignette: { value: 0.38 }, uGrain: { value: 0.022 } },
   vertexShader: /* glsl */ `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
   fragmentShader: /* glsl */ `uniform sampler2D tDiffuse; uniform float uTime; uniform float uVignette; uniform float uGrain; varying vec2 vUv;
     float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
@@ -169,7 +169,7 @@ const FinalShader = {
       vec3 c = texture2D(tDiffuse, vUv).rgb;
       // gentle filmic contrast + warm grade
       c = mix(c, c * c * (3.0 - 2.0 * c), 0.22);
-      c *= vec3(1.025, 1.0, 0.965);
+      c *= vec3(1.035, 1.0, 0.95);
       float l = dot(c, vec3(0.299, 0.587, 0.114));
       c = mix(vec3(l), c, 1.06);
       vec2 q = vUv - 0.5;
@@ -185,7 +185,7 @@ export function buildComposer(renderer, scene, camera, quality) {
   const rt = new THREE.WebGLRenderTarget(size.x, size.y, { type: THREE.HalfFloatType, samples: quality.msaa });
   const composer = new EffectComposer(renderer, rt);
   composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(size.x / 2, size.y / 2), 0.2, 0.75, 0.95);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(size.x / 2, size.y / 2), 0.26, 0.8, 0.92);
   bloom.enabled = quality.bloom;
   composer.addPass(bloom);
   composer.addPass(new OutputPass());

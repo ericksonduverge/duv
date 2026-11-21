@@ -4,8 +4,8 @@ import { uvMeters } from './textures.js';
 export const SUN_DIR = new THREE.Vector3(-0.1, -0.75, -1).normalize();
 
 export function roomDims(L) {
-  const W = 8.6, H = 3.5, R = 5.3;
-  return { W, hw: W / 2, H, R, L, zb: -L / 2, zf: L / 2, backDepth: 6, backHalf: 3.4, backH: 3.3, wallT: 0.4 };
+  const W = 6.3, H = 3.3, R = 4.55;
+  return { W, hw: W / 2, H, R, L, zb: -L / 2, zf: L / 2, backDepth: 6, backHalf: 3.0, backH: 3.2, wallT: 0.4 };
 }
 
 export function buildRoom(scene, { mats, tex }, d, quality) {
@@ -30,7 +30,9 @@ export function buildRoom(scene, { mats, tex }, d, quality) {
   floor.receiveShadow = true;
   scene.add(floor);
 
-  const pq = { w: 5.0, l: L - 4.4, z: (zb + 1.9 + zf - 2.5) / 2 };
+  const fz = d.fz ?? zf - 4.4;
+  const pqZ1 = Math.min(zf - 1.5, fz + 3.1), pqZ0 = Math.max(zb + 1.6, fz - 2.9);
+  const pq = { w: Math.min(4.7, d.W - 1.5), l: pqZ1 - pqZ0, z: (pqZ0 + pqZ1) / 2 };
   const pGeo = new THREE.PlaneGeometry(pq.w, pq.l);
   pGeo.rotateX(-Math.PI / 2);
   uvMeters(pGeo);
@@ -51,6 +53,9 @@ export function buildRoom(scene, { mats, tex }, d, quality) {
   const gapMat = new THREE.MeshBasicMaterial({ color: 0x1a1612 });
   box(0.012, 0.035, L, gapMat, -hw + 0.006, 0.0175, 0, scene, false);
   box(0.012, 0.035, L, gapMat, hw - 0.006, 0.0175, 0, scene, false);
+  const skirt = new THREE.MeshStandardMaterial({ color: 0xf1e6d4, roughness: 0.6 });
+  box(0.018, 0.09, L, skirt, -hw + 0.009, 0.08, 0, scene, false);
+  box(0.018, 0.09, L, skirt, hw - 0.009, 0.08, 0, scene, false);
 
   const gable = () => {
     const s = new THREE.Shape();
@@ -58,7 +63,7 @@ export function buildRoom(scene, { mats, tex }, d, quality) {
     return s;
   };
   // back wall with arch
-  const arch = { hw: 1.4, spring: 1.75 };
+  const arch = { hw: 1.45, spring: 1.4 };
   const backShape = gable();
   const hole = new THREE.Path();
   hole.moveTo(-arch.hw, 0); hole.lineTo(-arch.hw, arch.spring);
@@ -88,7 +93,8 @@ export function buildRoom(scene, { mats, tex }, d, quality) {
   scene.add(leftG, rightG);
 
   // skylight opening in left-slope local coords (x along slope, z = world z)
-  const sk = { u0: -1.0, u1: 1.55, z0: zb + 2.7, z1: zb + 6.0 };
+  const skZ1 = Math.max(zb + 4.6, zf - 4.7);
+  const sk = { u0: -0.27 * s, u1: 0.34 * s, z0: Math.max(zb + 1.4, skZ1 - 3.3), z1: skZ1 };
   const T = 0.14, ty = T / 2;
   const zA = -roofLen / 2, zB = roofLen / 2;
   box(sl, T, sk.z0 - zA, mats.plaster, -0.25, ty, (zA + sk.z0) / 2, leftG);
@@ -113,22 +119,22 @@ export function buildRoom(scene, { mats, tex }, d, quality) {
   const skyTex = tex.sky;
   skyTex.repeat.set(0.84, 0.8);
   skyTex.offset.set(0.08, 0.11);
-  const sky = new THREE.Mesh(new THREE.PlaneGeometry(skW * 2.8, skL * 2.6), new THREE.MeshBasicMaterial({ map: skyTex, color: new THREE.Color(1.7, 1.7, 1.75) }));
+  const sky = new THREE.Mesh(new THREE.PlaneGeometry(skW * 2.8, skL * 2.6), new THREE.MeshBasicMaterial({ map: skyTex, color: new THREE.Color(1.5, 1.5, 1.55) }));
   sky.rotation.x = Math.PI / 2;
   sky.position.set(skX, 0.75, skZ);
   leftG.add(sky);
 
   // rafters
   const rz = [];
-  const n = Math.max(4, Math.round(L / 2.1));
+  const n = Math.max(4, Math.round(L / 2.5));
   for (let i = 0; i < n; i++) rz.push(zb + 0.55 + (i * (L - 1.1)) / (n - 1));
-  for (const z of rz) box(s, 0.24, 0.16, mats.oak, 0, -0.12, z, rightG);
-  for (const z of rz) if (z < sk.z0 - 0.5 || z > sk.z1 + 0.5) box(s, 0.24, 0.16, mats.oak, 0, -0.12, z, leftG);
-  box(s, 0.24, 0.16, mats.oak, 0, -0.12, sk.z0 - 0.09, leftG);
-  box(s, 0.24, 0.16, mats.oak, 0, -0.12, sk.z1 + 0.09, leftG);
+  for (const z of rz) box(s, 0.28, 0.19, mats.oak, 0, -0.14, z, rightG);
+  for (const z of rz) if (z < sk.z0 - 0.5 || z > sk.z1 + 0.5) box(s, 0.28, 0.19, mats.oak, 0, -0.14, z, leftG);
+  box(s, 0.28, 0.19, mats.oak, 0, -0.14, sk.z0 - 0.1, leftG);
+  box(s, 0.28, 0.19, mats.oak, 0, -0.14, sk.z1 + 0.1, leftG);
   box(0.14, 0.2, skL + 0.02, mats.oak, sk.u0 - 0.08, -0.1, skZ, leftG);
   box(0.14, 0.2, skL + 0.02, mats.oak, sk.u1 + 0.08, -0.1, skZ, leftG);
-  box(0.22, 0.32, L, mats.oak, 0, R - 0.24, 0);
+  box(0.24, 0.34, L, mats.oak, 0, R - 0.25, 0);
 
   // ---------- back room ----------
   const bh = d.backHalf, bH = d.backH, bz = (zr + zb - d.wallT) / 2;
@@ -136,7 +142,7 @@ export function buildRoom(scene, { mats, tex }, d, quality) {
   box(0.2, bH, d.backDepth, mats.plaster, bh + 0.1, bH / 2, bz);
   box(bh * 2 + 0.4, 0.2, d.backDepth + 0.2, mats.plaster, 0, bH + 0.1, bz);
   for (let i = 0; i < 4; i++) box(bh * 2, 0.2, 0.15, mats.oak, 0, bH - 0.1, zr + 0.8 + i * 1.5);
-  const win = { hw: 2.3, y0: 0.35, y1: 2.85 };
+  const win = { hw: 2.2, y0: 0.35, y1: 2.8 };
   const bw = new THREE.Shape();
   bw.moveTo(-bh - 0.2, 0); bw.lineTo(bh + 0.2, 0); bw.lineTo(bh + 0.2, bH); bw.lineTo(-bh - 0.2, bH); bw.closePath();
   const wh = new THREE.Path();
@@ -153,9 +159,9 @@ export function buildRoom(scene, { mats, tex }, d, quality) {
   for (const y of [win.y0, win.y0 + 0.8, win.y1]) box(win.hw * 2, 0.045, 0.06, mats.black, 0, y, zr - 0.1, scene, false);
 
   // ---------- lights ----------
-  scene.add(new THREE.HemisphereLight(0xfff3e2, 0x9a7a5c, 1.55));
+  scene.add(new THREE.HemisphereLight(0xffe9cf, 0xc9ab8a, 0.95));
 
-  const sun = new THREE.DirectionalLight(0xffedd2, 4.6);
+  const sun = new THREE.DirectionalLight(0xffe2bd, 4.4);
   const center = new THREE.Vector3(0, 2.5, (zf + zr) / 2);
   const rad = 0.5 * Math.hypot(d.W + 1.5, fl + 1, 6.5);
   sun.position.copy(center).addScaledVector(SUN_DIR, -(rad + 6));
@@ -169,11 +175,11 @@ export function buildRoom(scene, { mats, tex }, d, quality) {
   scene.add(sun, sun.target);
 
   // cool daylight bounce under the skylight
-  const skyFill = new THREE.PointLight(0xeaf2ff, 26, 13, 2);
-  skyFill.position.set(-1.9, 3.7, skZ);
+  const skyFill = new THREE.PointLight(0xf3f0ea, 12, 11, 2);
+  skyFill.position.set(-hw * 0.45, H + 0.15, skZ);
   scene.add(skyFill);
   // window light in the back room
-  const winFill = new THREE.PointLight(0xfff6e6, 34, 11, 2);
+  const winFill = new THREE.PointLight(0xfff0d8, 30, 11, 2);
   winFill.position.set(0, 2.3, zr + 1.6);
   scene.add(winFill);
 

@@ -171,10 +171,10 @@ export function createUI({ gallery, artworks, actions }) {
       const vw = window.innerWidth, vh = window.innerHeight;
       if (isSheet()) {
         syncSheet();
-        return { x0: 14, x1: vw - 14, y0: 74, y1: Math.max(180, vh - panel.offsetHeight - 22) };
+        return { x0: 12, x1: vw - 12, y0: 70, y1: Math.max(180, vh - panel.offsetHeight - 20) };
       }
       const right = parseFloat(getComputedStyle(panel).right) || 40;
-      return { x0: 34, x1: vw - right - panel.offsetWidth - 34, y0: 92, y1: vh - 84 };
+      return { x0: Math.max(40, vw * 0.045), x1: vw - right - panel.offsetWidth - Math.max(30, vw * 0.03), y0: 62, y1: vh - 52 };
     },
     setProgress(p) { $('loaderBar').style.transform = `scaleX(${Math.min(1, p).toFixed(3)})`; },
     setLoaded() { body.classList.remove('is-loading'); },

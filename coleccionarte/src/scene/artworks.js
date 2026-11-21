@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import { loadTexture, scallopTexture, softShadowTexture, ornamentTexture, placeholderArt, SCALLOP } from './textures.js';
+import { loadTexture, scallopTexture, softShadowTexture, ornamentTexture, placeholderArt, normalFromImage, SCALLOP } from './textures.js';
 
 const FRAMES = {
-  oak: { width: 0.035, depth: 0.055, bevel: 0 },
+  oak: { width: 0.03, depth: 0.06, bevel: 0 },
   black: { width: 0.028, depth: 0.05, bevel: 0 },
-  gold: { width: 0.1, depth: 0.06, bevel: 0.022 },
+  gold: { width: 0.115, depth: 0.075, bevel: 0, carved: true },
   none: { width: 0.0, depth: 0.035, bevel: 0 },
 };
 const frameSpec = (a) => FRAMES[a.frame] || FRAMES.oak;
@@ -28,8 +28,8 @@ export function computeLayout(artworks) {
     const s = sizeOf(a), f = frameSpec(a);
     return { ...s, outer: s.w + 2 * (f.width + f.bevel) };
   });
-  const run = (arr) => arr.reduce((t, s) => t + s.outer, 0) + Math.max(0, arr.length - 1) * 1.0;
-  const marginBack = 1.3, marginFront = 4.1;
+  const run = (arr) => arr.reduce((t, s) => t + s.outer, 0) + Math.max(0, arr.length - 1) * 0.6;
+  const marginBack = 1.15, marginFront = 3.6;
   const L = THREE.MathUtils.clamp(Math.max(run(sized.slice(0, nL)), run(sized.slice(nL))) + marginBack + marginFront + 0.6, 11, 40);
   const zb = -L / 2, zf = L / 2;
   const place = (idx, side) => {
@@ -44,7 +44,7 @@ export function computeLayout(artworks) {
       const s = sized[i];
       cur += dir * (gap / 2 + s.outer / 2);
       s.z = cur; s.side = side;
-      s.y = Math.max(1.58, s.h / 2 + 0.55);
+      s.y = Math.max(1.55, s.h / 2 + 0.6);
       cur += dir * (gap / 2 + s.outer / 2);
     });
   };
@@ -54,6 +54,60 @@ export function computeLayout(artworks) {
   return { L, slots: sized };
 }
 
+/** Mitred moulding swept around the canvas. profile: [across (0 = inner edge), height]. */
+function mouldingGeometry(w, h, profile) {
+  const pos = [], uv = [], idx = [];
+  const n = profile.length;
+  const width = profile[n - 1].x;
+  // corners in order: BL, BR, TR, TL (counter-clockwise seen from the front)
+  const sgn = [[-1, -1], [1, -1], [1, 1], [-1, 1]];
+  for (let side = 0; side < 4; side++) {
+    const a = sgn[side], b = sgn[(side + 1) % 4];
+    const horizontal = side % 2 === 0;
+    const base = pos.length / 3;
+    for (let k = 0; k < n; k++) {
+      const t = profile[k].x, z = profile[k].y;
+      const ax = a[0] * (w / 2 + t), ay = a[1] * (h / 2 + t), bx = b[0] * (w / 2 + t), by = b[1] * (h / 2 + t);
+      pos.push(ax, ay, z, bx, by, z);
+      const ua = horizontal ? ax : ay, ub = horizontal ? bx : by;
+      uv.push(ua, t / width, ub, t / width);
+    }
+    for (let k = 0; k < n - 1; k++) {
+      const i0 = base + k * 2, i1 = i0 + 1, i2 = i0 + 2, i3 = i0 + 3;
+      idx.push(i0, i3, i1, i0, i2, i3);
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  return g;
+}
+
+/** Canvas material: gallery spot from above reveals the brushwork relief. */
+function canvasMaterial(tex, normalMap, wallNormal) {
+  const mat = new THREE.MeshStandardMaterial({
+    map: tex, roughness: 0.58, emissive: 0xffe6c8, emissiveMap: tex, emissiveIntensity: 0.4,
+    normalMap, normalScale: new THREE.Vector2(0.55, 0.55),
+  });
+  const spot = new THREE.Vector3(0, 0.8, 0).addScaledVector(wallNormal, 0.6).normalize();
+  mat.onBeforeCompile = (sh) => {
+    sh.uniforms.uSpotDir = { value: spot };
+    sh.fragmentShader = sh.fragmentShader
+      .replace('#include <common>', '#include <common>\nuniform vec3 uSpotDir;')
+      .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+        {
+          vec3 spotV = normalize((viewMatrix * vec4(uSpotDir, 0.0)).xyz);
+          float relief = clamp(dot(normal, spotV) / 0.6, 0.0, 1.9);
+          float pool = mix(0.84, 1.1, smoothstep(0.0, 1.0, vMapUv.y)) * (1.0 - 0.1 * abs(vMapUv.x - 0.5));
+          totalEmissiveRadiance *= mix(1.0, relief, 0.6) * pool;
+        }`);
+  };
+  mat.customProgramCacheKey = () => 'canvas-spot';
+  return mat;
+}
+
 export async function buildArtworks(scene, { mats }, d, artworks, slots) {
   const scallop = scallopTexture(1.6);
   const shadowTex = softShadowTexture(false);
@@ -61,11 +115,11 @@ export async function buildArtworks(scene, { mats }, d, artworks, slots) {
   const frameMats = {
     oak: mats.oakLight,
     black: new THREE.MeshStandardMaterial({ color: 0x15120f, roughness: 0.5, metalness: 0.2 }),
-    gold: new THREE.MeshStandardMaterial({ color: 0xc79a45, roughness: 0.32, metalness: 1, bumpMap: ornament, bumpScale: 1.6 }),
+    gold: new THREE.MeshStandardMaterial({ map: ornament.map, color: 0xffe9c0, roughness: 0.3, metalness: 1, bumpMap: ornament.bump, bumpScale: 3.5, envMapIntensity: 3.2, emissive: 0x6a4410, emissiveMap: ornament.map, emissiveIntensity: 0.55 }),
   };
   const backMat = new THREE.MeshStandardMaterial({ color: 0x1b1714, roughness: 0.9 });
-  const washMat = new THREE.MeshBasicMaterial({ map: scallop, color: new THREE.Color(1.0, 0.66, 0.36).multiplyScalar(0.85), blending: THREE.AdditiveBlending, transparent: true, depthWrite: false });
-  const shadowMat = new THREE.MeshBasicMaterial({ map: shadowTex, color: 0x140c04, transparent: true, opacity: 0.5, depthWrite: false });
+  const washMat = new THREE.MeshBasicMaterial({ map: scallop, color: new THREE.Color(1.0, 0.68, 0.38).multiplyScalar(0.95), blending: THREE.AdditiveBlending, transparent: true, depthWrite: false });
+  const shadowMat = new THREE.MeshBasicMaterial({ map: shadowTex, color: 0x140c04, transparent: true, opacity: 0.55, depthWrite: false });
   const washGeo = new THREE.PlaneGeometry(SCALLOP.w, SCALLOP.top - SCALLOP.bottom);
 
   const textures = await Promise.all(artworks.map((a) =>
@@ -121,17 +175,31 @@ export async function buildArtworks(scene, { mats }, d, artworks, slots) {
     g.add(sh);
 
     // backing + canvas
-    const backing = new THREE.Mesh(new THREE.BoxGeometry(s.w, s.h, spec.depth * 0.7), backMat);
-    backing.position.z = 0.008 + spec.depth * 0.35;
+    const canvasD = spec.carved ? 0.014 : spec.depth * 0.7;
+    const backing = new THREE.Mesh(new THREE.BoxGeometry(s.w, s.h, canvasD), backMat);
+    backing.position.z = 0.008 + canvasD / 2;
     g.add(backing);
-    const mat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.62, emissive: 0xffe2c2, emissiveMap: tex, emissiveIntensity: 0.4 });
+    let relief = null;
+    try { if (tex.image && tex.image.width) relief = normalFromImage(tex.image, 1.7, 768); } catch { relief = null; }
+    if (relief) { relief.wrapS = relief.wrapT = THREE.ClampToEdgeWrapping; relief.anisotropy = 8; }
+    const mat = canvasMaterial(tex, relief, new THREE.Vector3(-s.side, 0, 0));
     const canvas = new THREE.Mesh(new THREE.PlaneGeometry(s.w, s.h), mat);
-    canvas.position.z = 0.008 + spec.depth * 0.7 + 0.001;
+    canvas.position.z = 0.008 + canvasD + 0.001;
     canvas.userData.index = i;
     g.add(canvas);
     hit.push(canvas);
 
-    if (spec.width > 0) {
+    if (spec.carved) {
+      const W = spec.width, D = spec.depth;
+      const prof = new THREE.SplineCurve([
+        [0, 0.3], [0.05, 0.42], [0.12, 0.46], [0.2, 0.36], [0.3, 0.3], [0.42, 0.4], [0.56, 0.7], [0.7, 0.95],
+        [0.8, 1.0], [0.89, 0.9], [0.95, 0.66], [0.985, 0.3], [1, 0],
+      ].map(([x, y]) => new THREE.Vector2(x * W, y * D))).getPoints(40);
+      prof.unshift(new THREE.Vector2(0, 0.012));
+      const frame = new THREE.Mesh(mouldingGeometry(s.w - 0.006, s.h - 0.006, prof), frameMats.gold);
+      frame.position.z = 0.008;
+      g.add(frame);
+    } else if (spec.width > 0) {
       const fw = spec.width + spec.bevel;
       const ow = s.w / 2 + fw, oh = s.h / 2 + fw;
       const shape = new THREE.Shape();
