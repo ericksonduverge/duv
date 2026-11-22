@@ -18,7 +18,7 @@
       "heightCm": 120,
       "technique": "Óleo sobre lienzo",
       "description": "Un homenaje a la música y a la vida urbana, donde el ritmo de la ciudad se funde con la emoción del arte.",
-      "image": "/art/art01.jpg",
+      "image": "art/art01.jpg",
       "frame": "oak"
     },
     {
@@ -31,7 +31,7 @@
       "heightCm": 120,
       "technique": "Acrílico sobre lienzo",
       "description": "Un retrato fragmentado en planos de color que explora las múltiples caras de una misma persona.",
-      "image": "/art/art02.jpg",
+      "image": "art/art02.jpg",
       "frame": "oak"
     },
     {
@@ -44,7 +44,7 @@
       "heightCm": 125,
       "technique": "Óleo sobre lienzo",
       "description": "Obra de inspiración académica del siglo XIX, con veladuras delicadas y una luz dorada que envuelve la escena.",
-      "image": "/art/art03.jpg",
+      "image": "art/art03.jpg",
       "frame": "gold"
     },
     {
@@ -57,7 +57,7 @@
       "heightCm": 100,
       "technique": "Técnica mixta sobre lienzo",
       "description": "Una sola línea continua dibuja dos rostros que se encuentran. Minimalismo íntimo sobre fondo carbón.",
-      "image": "/art/art04.jpg",
+      "image": "art/art04.jpg",
       "frame": "black"
     },
     {
@@ -70,7 +70,7 @@
       "heightCm": 120,
       "technique": "Óleo con espátula sobre lienzo",
       "description": "Trazos enérgicos de espátula en naranja, carmín y cobalto que capturan el movimiento del mar en llamas.",
-      "image": "/art/art05.jpg",
+      "image": "art/art05.jpg",
       "frame": "black"
     },
     {
@@ -83,7 +83,7 @@
       "heightCm": 125,
       "technique": "Relieve de yeso sobre lienzo",
       "description": "Relieve monocromo de líneas orgánicas talladas a mano; una pieza serena que cambia con cada luz del día.",
-      "image": "/art/art06.jpg",
+      "image": "art/art06.jpg",
       "frame": "oak"
     },
     {
@@ -96,7 +96,7 @@
       "heightCm": 112,
       "technique": "Óleo sobre lienzo",
       "description": "El Caribe a la hora dorada, abstraído en campos de color translúcido: turquesa, coral y siluetas de palmas.",
-      "image": "/art/art07.jpg",
+      "image": "art/art07.jpg",
       "frame": "oak"
     },
     {
@@ -109,7 +109,7 @@
       "heightCm": 120,
       "technique": "Acrílico y pan de oro sobre lienzo",
       "description": "Un busto clásico reinterpretado con humor y lujo: gafas rosadas, pan de oro y color plano.",
-      "image": "/art/art08.jpg",
+      "image": "art/art08.jpg",
       "frame": "gold"
     }
   ]

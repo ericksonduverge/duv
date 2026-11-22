@@ -270,9 +270,9 @@ export function placeholderArt(label = '') {
 export async function loadMaterials() {
   const names = ['plaster', 'concrete', 'herringbone', 'oak', 'boucle', 'leather'];
   const [plaster, concrete, herringbone, oak, boucle, leather, sky, garden] = await Promise.all([
-    ...names.map((n) => loadTexture(`/tex/${n}.jpg`)),
-    loadTexture('/tex/sky.jpg', { repeat: false }),
-    loadTexture('/tex/garden.jpg', { repeat: false }),
+    ...names.map((n) => loadTexture(`tex/${n}.jpg`)),
+    loadTexture('tex/sky.jpg', { repeat: false }),
+    loadTexture('tex/garden.jpg', { repeat: false }),
   ]);
   const nrm = {
     plaster: normalFromImage(plaster.image, 2.2),

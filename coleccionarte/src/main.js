@@ -21,7 +21,7 @@ const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) 
 
 async function init() {
   const canvas = document.getElementById('scene');
-  const res = await fetch('/data/artworks.json', { cache: 'no-cache' });
+  const res = await fetch('data/artworks.json', { cache: 'no-cache' });
   if (!res.ok) throw new Error('No se pudo cargar la colección');
   const json = await res.json();
   const gallery = json.gallery || {};
