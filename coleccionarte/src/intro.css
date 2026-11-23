@@ -59,6 +59,7 @@ form .intro-btn { width: 100%; }
 .intro-btn.enter { min-width: 260px; height: 60px; font-size: 16px; letter-spacing: .42em; padding-left: calc(28px + .42em); }
 .is-busy .intro-btn span::after { content: '…'; }
 
+.intro-demo { margin: 12px 0 0; font-size: 12.5px; letter-spacing: .02em; color: #f3d9a8; opacity: .9; }
 .intro-error { min-height: 1.2em; margin: 12px 0 0; font-size: 13px; color: #ffd2b8; }
 .intro-links { margin: 6px 0 0; display: flex; justify-content: center; gap: 10px; font-size: 13px; opacity: .78; }
 .intro-links button { text-decoration: underline; text-underline-offset: 3px; }

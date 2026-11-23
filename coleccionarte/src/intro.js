@@ -98,6 +98,7 @@ export async function runIntro({ startGallery }) {
     busy(form, false);
     if (!r.ok) { formError(form, r.data.error); return false; }
     if (r.data.debugCode) console.info('[dev] código OTP:', r.data.debugCode);
+    $('introDemo').hidden = !r.data.demo;
     return true;
   };
 

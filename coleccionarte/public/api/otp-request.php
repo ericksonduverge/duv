@@ -10,6 +10,8 @@ $ip = client_ip();
 if (!rate_ok('req-ip:' . $ip, 12, 3600) || !rate_ok('req-mail:' . $email, 5, 3600)) {
     json_out(['error' => 'demasiados_intentos'], 429);
 }
+if (!empty(cfg()['demo_otp'])) json_out(['ok' => true, 'demo' => true]);
+
 $file = data_path('otp') . '/' . hash('sha256', $email) . '.json';
 $prev = read_json($file);
 if ($prev && ($prev['sent'] ?? 0) > time() - 45) json_out(['error' => 'espera', 'retryIn' => 45 - (time() - $prev['sent'])], 429);

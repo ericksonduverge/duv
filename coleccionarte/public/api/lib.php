@@ -148,6 +148,10 @@ function send_code_mail(string $to, string $code): bool {
         . '<tr><td style="padding:0 40px 36px;font:13px/1.6 Helvetica,Arial,sans-serif;color:#8a7f74;text-align:center">Vence en 10 minutos. Si no lo pediste, ignora este correo.</td></tr>'
         . '</table></td></tr></table></body></html>';
 
+    if (!empty($m['resend_api_key'])) {
+        return resend_send($m, $to, $subject, $text, $html);
+    }
+
     $boundary = 'b' . bin2hex(random_bytes(8));
     $fromHeader = '=?UTF-8?B?' . base64_encode($m['from_name']) . '?= <' . $m['from_email'] . '>';
     $headers = [
@@ -168,6 +172,32 @@ function send_code_mail(string $to, string $code): bool {
         return smtp_send($m, $to, $encSubject, $headers, $body);
     }
     return mail($to, $encSubject, $body, implode("\r\n", $headers), '-f' . $m['from_email']);
+}
+
+/** Resend (https://resend.com) transactional e-mail API. */
+function resend_send(array $m, string $to, string $subject, string $text, string $html): bool {
+    $payload = json_encode([
+        'from'    => $m['from_name'] . ' <' . $m['from_email'] . '>',
+        'to'      => [$to],
+        'subject' => $subject,
+        'html'    => $html,
+        'text'    => $text,
+        'headers' => ['X-Entity-Ref-ID' => bin2hex(random_bytes(8))], // keeps Gmail from threading codes together
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    $ch = curl_init('https://api.resend.com/emails');
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $payload,
+        CURLOPT_HTTPHEADER     => ['Authorization: Bearer ' . $m['resend_api_key'], 'Content-Type: application/json'],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 15,
+    ]);
+    $res  = curl_exec($ch);
+    $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $err  = curl_error($ch);
+    curl_close($ch);
+    if ($code < 200 || $code >= 300) { error_log('resend ' . $code . ': ' . (is_string($res) && $res !== '' ? $res : $err)); return false; }
+    return true;
 }
 
 function smtp_send(array $m, string $to, string $subject, array $headers, string $body): bool {

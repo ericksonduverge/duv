@@ -8,10 +8,11 @@ return [
     // Time zone that decides when each monthly drop starts and ends.
     'timezone' => 'America/Santo_Domingo',
 
-    // Outgoing mail (Hostinger SMTP).
+    // Outgoing mail. Resend is used when resend_api_key is set; otherwise SMTP, otherwise PHP mail().
     'mail' => [
-        'from_email' => 'no-reply@duvagency.com',
-        'from_name'  => 'Coleccionarte',
+        'from_email'     => 'no-reply@duvagency.com', // must be on a domain verified in Resend
+        'from_name'      => 'Coleccionarte',
+        'resend_api_key' => '',                       // re_... from resend.com → API Keys (sending access)
         'smtp_host'  => 'smtp.hostinger.com',
         'smtp_port'  => 465,          // SSL
         'smtp_user'  => 'no-reply@duvagency.com',
@@ -22,6 +23,10 @@ return [
     'otp_ttl_seconds'     => 600,      // 10 minutes
     'otp_max_attempts'    => 5,
     'session_ttl_seconds' => 60 * 60 * 24 * 30, // 30 days
+
+    // Demo mode: no e-mail is sent and any 6-digit code is accepted, so the client can see the flow.
+    // Set to false once Resend (or SMTP) is configured.
+    'demo_otp' => true,
 
     // Only for local testing: returns the code in the API response. Never true in production.
     'debug_return_code' => false,
