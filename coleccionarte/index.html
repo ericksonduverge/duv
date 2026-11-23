@@ -17,6 +17,68 @@
   <div id="stage"><canvas id="scene" aria-label="Recorrido 3D por la galería"></canvas></div>
   <div class="veil" aria-hidden="true"></div>
 
+  <section id="intro" class="intro" data-step="boot" aria-label="Entrada a la galería">
+    <div class="intro-media">
+      <video id="introWelcome" playsinline preload="auto" poster="media/welcome-poster.jpg" src="media/welcome.mp4"></video>
+      <video id="introEnter" playsinline muted preload="auto"></video>
+    </div>
+    <div class="intro-shade" aria-hidden="true"></div>
+
+    <div class="intro-top">
+      <div class="intro-brand">COLECCIONARTE</div>
+      <div class="countdown" data-countdown>
+        <span class="cd-label">Galería del mes</span>
+        <span class="cd-time" aria-live="off">— — — —</span>
+      </div>
+    </div>
+
+    <div class="intro-card" data-for="start">
+      <p class="intro-eyebrow">Colección privada · 10 obras cada mes</p>
+      <h1 class="intro-title">Bienvenido a la casa</h1>
+      <button type="button" class="intro-btn" id="introStart">
+        <span>Comenzar</span>
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 12h16m-6-6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+      <p class="intro-note">Activa el sonido para una mejor experiencia</p>
+    </div>
+
+    <form class="intro-card" data-for="email" id="introEmail" novalidate>
+      <p class="intro-eyebrow">Acceso privado</p>
+      <h2 class="intro-title">Ingresa tu correo</h2>
+      <p class="intro-sub">Te enviaremos un código de verificación para entrar a la galería.</p>
+      <label class="intro-field"><span class="sr">Correo electrónico</span>
+        <input type="email" id="introEmailInput" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required />
+      </label>
+      <button type="submit" class="intro-btn"><span>Enviar código</span>
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 12h16m-6-6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+      <p class="intro-error" role="alert"></p>
+    </form>
+
+    <form class="intro-card" data-for="code" id="introCode" novalidate>
+      <p class="intro-eyebrow">Verificación</p>
+      <h2 class="intro-title">Revisa tu correo</h2>
+      <p class="intro-sub">Escribe el código de 6 dígitos que enviamos a <b id="introCodeEmail"></b>.</p>
+      <label class="intro-field code"><span class="sr">Código de verificación</span>
+        <input type="text" id="introCodeInput" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="6" placeholder="••••••" required />
+      </label>
+      <button type="submit" class="intro-btn"><span>Verificar</span>
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 12h16m-6-6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      </button>
+      <p class="intro-error" role="alert"></p>
+      <p class="intro-links"><button type="button" id="introResend">Reenviar código</button><span>·</span><button type="button" id="introChange">Cambiar correo</button></p>
+    </form>
+
+    <div class="intro-card" data-for="enter">
+      <p class="intro-eyebrow">Acceso concedido</p>
+      <h2 class="intro-title">La colección te espera</h2>
+      <button type="button" class="intro-btn enter" id="introEnterBtn"><span>ENTRAR</span></button>
+    </div>
+
+    <div class="intro-wait" aria-live="polite">Preparando la sala…</div>
+    <button type="button" class="intro-skip" id="introSkip">Saltar</button>
+  </section>
+
   <div id="loader" role="status" aria-live="polite">
     <div class="loader-inner">
       <div class="loader-brand">COLECCIONARTE</div>
@@ -28,6 +90,10 @@
 
   <header class="top">
     <a class="brand" href="#" id="brand" aria-label="Coleccionarte, volver a la sala">COLECCIONARTE</a>
+    <div class="countdown badge" data-countdown>
+      <span class="cd-label">Galería del mes</span>
+      <span class="cd-time" aria-live="off"></span>
+    </div>
     <nav class="nav" aria-label="Principal">
       <button type="button" data-nav="coleccion">Colección</button>
       <button type="button" data-nav="artistas" class="nav-wide">Artistas</button>
@@ -115,6 +181,6 @@
   </div>
 
   <noscript>Esta experiencia requiere JavaScript.</noscript>
-  <script type="module" src="/src/main.js"></script>
+  <script type="module" src="/src/app.js"></script>
 </body>
 </html>

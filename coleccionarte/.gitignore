@@ -1,3 +1,7 @@
 node_modules/
 dist/
 .dream-loop/
+public/api/config.php
+public/api/_data/*
+!public/api/_data/.htaccess
+!public/api/_data/collection.json

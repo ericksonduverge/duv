@@ -19,11 +19,8 @@ const quality = mobile
 
 const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-async function init() {
+export async function startGallery(json) {
   const canvas = document.getElementById('scene');
-  const res = await fetch('data/artworks.json', { cache: 'no-cache' });
-  if (!res.ok) throw new Error('No se pudo cargar la colección');
-  const json = await res.json();
   const gallery = json.gallery || {};
   const artworks = Array.isArray(json.artworks) ? json.artworks.filter((a) => a && a.image) : [];
   const N = artworks.length;
@@ -344,8 +341,3 @@ async function init() {
   document.addEventListener('visibilitychange', () => { clock.getDelta(); slowAcc = 0; slowN = 0; });
 }
 
-init().catch((err) => {
-  console.error(err);
-  const msg = document.getElementById('loaderMsg');
-  if (msg) msg.textContent = 'No se pudo cargar la galería. Intente de nuevo.';
-});
