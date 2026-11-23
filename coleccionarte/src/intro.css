@@ -69,6 +69,12 @@ form .intro-btn { width: 100%; }
   opacity: 0; visibility: hidden; transition: opacity .5s, visibility 0s .5s; }
 .intro[data-step="playing"] .intro-skip { opacity: .85; visibility: visible; transition-delay: 1.2s, 0s; }
 
+.intro-sound { position: absolute; left: 50%; bottom: calc(clamp(28px, 7vh, 72px) + env(safe-area-inset-bottom)); transform: translate(-50%, 12px);
+  display: inline-flex; align-items: center; gap: 12px; height: 52px; padding: 0 26px; border-radius: 999px; background: var(--cream); color: var(--ink);
+  font-size: 13px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; white-space: nowrap; box-shadow: 0 12px 40px rgba(0, 0, 0, .3);
+  opacity: 0; visibility: hidden; transition: opacity .6s var(--ease), transform .7s var(--ease), visibility 0s .6s; }
+.intro.is-muted[data-step="playing"] .intro-sound { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: .6s, .6s, 0s; animation: introPulse 2.4s ease-in-out 1.6s infinite; }
+@keyframes introPulse { 0%, 100% { box-shadow: 0 12px 40px rgba(0, 0, 0, .3), 0 0 0 0 rgba(247, 239, 227, .45); } 50% { box-shadow: 0 12px 40px rgba(0, 0, 0, .3), 0 0 0 12px rgba(247, 239, 227, 0); } }
 .intro-wait { position: absolute; left: 0; right: 0; bottom: calc(40px + env(safe-area-inset-bottom)); text-align: center; font-size: 11px; letter-spacing: .24em; text-transform: uppercase;
   opacity: 0; transition: opacity .5s; }
 .intro.is-waiting:not(.is-done) .intro-wait { opacity: .75; }

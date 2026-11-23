@@ -40,6 +40,15 @@ export async function runIntro({ startGallery }) {
   const setStep = (s) => { intro.dataset.step = s; };
   const portrait = () => window.innerWidth / window.innerHeight < 0.9;
 
+  // ----- welcome film starts right away (muted: browsers only autoplay silent video) -----
+  const sound = $('introSound');
+  const playMuted = async () => {
+    welcome.muted = true;
+    try { await welcome.play(); setStep('playing'); intro.classList.add('is-playing', 'is-muted'); return true; }
+    catch { return false; }
+  };
+  const autoplayP = playMuted();
+
   // ----- drop + session -----
   const sess = await api('session.php');
   const drop = sess.ok && sess.data.drop ? sess.data.drop : localDrop();
@@ -65,19 +74,28 @@ export async function runIntro({ startGallery }) {
   const granted = () => { authed = true; setStep('enter'); loadGallery(); };
 
   // ----- start → welcome film -----
-  setStep('start');
+  // If the browser refused even a muted autoplay (e.g. iPhone low-power mode), offer the Comenzar button.
+  if (!(await autoplayP) && intro.dataset.step === 'boot') setStep('start');
+  let welcomeDone = false;
   const afterWelcome = () => {
-    intro.classList.remove('is-playing');
+    if (welcomeDone) return;
+    welcomeDone = true;
+    intro.classList.remove('is-playing', 'is-muted');
     if (authed) granted(); else { setStep('email'); setTimeout(() => $('introEmailInput').focus({ preventScroll: true }), 400); }
   };
   welcome.addEventListener('ended', afterWelcome);
-  $('introStart').addEventListener('click', async () => {
+  // "Activar sonido" restarts the film from the top with the owner's voice.
+  const playWithSound = async () => {
     setStep('playing');
     intro.classList.add('is-playing');
+    intro.classList.remove('is-muted');
+    welcome.currentTime = 0;
     welcome.muted = false;
     try { await welcome.play(); }
-    catch { welcome.muted = true; try { await welcome.play(); } catch { afterWelcome(); } }
-  });
+    catch { if (!(await playMuted())) afterWelcome(); }
+  };
+  sound.addEventListener('click', playWithSound);
+  $('introStart').addEventListener('click', playWithSound);
   $('introSkip').addEventListener('click', () => {
     if (intro.dataset.step !== 'playing') return;
     welcome.pause();
